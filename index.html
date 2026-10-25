@@ -1,3 +1,4 @@
+$html = @'
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -77,7 +78,8 @@
       background: white; padding: 12px; border-radius: 12px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     }
-    .qr-wrap img { display: block; width: 140px; height: 140px; }
+    #qr-container { width: 140px; height: 140px; display: flex; align-items: center; justify-content: center; }
+    #qr-container img, #qr-container canvas { display: block; width: 140px; height: 140px; }
     .qr-caption { font-size: 12px; color: var(--grey); margin-top: 6px; }
 
     section { padding: 40px 0; }
@@ -165,7 +167,7 @@
     </div>
 
     <div class="qr-wrap">
-      <img id="qr-img" src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" alt="QR Code" />
+      <div id="qr-container"></div>
       <div class="qr-caption" data-i18n="qr_caption">Scan to download on your phone</div>
     </div>
   </div>
@@ -277,6 +279,7 @@
   </div>
 </footer>
 
+<script src="qrcode.min.js"></script>
 <script>
 // ---- Language strings ----
 const T = {
@@ -351,14 +354,20 @@ function setLang(lang) {
   document.getElementById('btn-ne').classList.toggle('active', lang === 'ne');
 }
 
-// Init language
 const savedLang = localStorage.getItem('booksxr_lang') || 'en';
 setLang(savedLang);
 
-// Set QR code URL
-document.getElementById('qr-img').src =
-  'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=' +
-  encodeURIComponent(window.location.href);
+// Self-hosted QR code — no external API
+if (typeof QRCode !== 'undefined') {
+  new QRCode(document.getElementById('qr-container'), {
+    text: window.location.href,
+    width: 140,
+    height: 140,
+    colorDark: "#1A1C1A",
+    colorLight: "#FFFFFF",
+    correctLevel: QRCode.CorrectLevel.M
+  });
+}
 
 // Load version from version.json
 fetch('version.json').then(r => r.json()).then(data => {
@@ -372,3 +381,10 @@ fetch('version.json').then(r => r.json()).then(data => {
 </script>
 </body>
 </html>
+'@
+[System.IO.File]::WriteAllText(
+    "D:\booksxr-website\index.html",
+    $html,
+    (New-Object System.Text.UTF8Encoding($false))
+)
+Write-Host "index.html updated with self-hosted QR" -ForegroundColor Green
