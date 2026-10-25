@@ -1,390 +1,522 @@
-$html = @'
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>booksXR — Business Finance App</title>
-  <meta name="description" content="Free, offline, secure finance app for small business owners. Track income, expenses, loans, and reminders — in English and Nepali.">
-  <meta property="og:title" content="booksXR — Business Finance App">
-  <meta property="og:description" content="Free, offline, secure finance app. English + नेपाली.">
-  <meta property="og:type" content="website">
-  <meta name="theme-color" content="#2E7D32">
-  <link rel="icon" type="image/png" href="icon-192.png">
-  <link rel="apple-touch-icon" href="icon-192.png">
+  <script src="qrcode.min.js"></script>
   <style>
-    :root {
-      --green: #2E7D32;
-      --green-light: #B9F6CA;
-      --red: #C62828;
-      --dark: #1A1C1A;
-      --light: #F7F9F7;
-      --grey: #6B7280;
-      --radius: 16px;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    /* ---- Base 2010 Blog Setup ---- */
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background: var(--light); color: var(--dark); line-height: 1.55;
-      -webkit-font-smoothing: antialiased;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 13px;
+      color: #333;
+      background: linear-gradient(to bottom, #9bcbf1 0%, #d2eafd 350px, #8ecc3b 350px, #6da321 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
     }
-    .container { max-width: 720px; margin: 0 auto; padding: 0 20px; }
+
+    /* ---- MOVING BACKGROUND ELEMENTS ---- */
+    .seed {
+      position: absolute;
+      background: white;
+      border-radius: 50%;
+      box-shadow: 0 0 3px white;
+      opacity: 0;
+      animation: floatSeed 12s linear infinite;
+    }
+    .seed::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      width: 1px;
+      height: 15px;
+      background: rgba(255,255,255,0.6);
+      transform: translateX(-50%);
+    }
+
+    @keyframes floatSeed {
+      0% { transform: translate(0, 0) rotate(0deg); opacity: 0; }
+      10% { opacity: 0.8; }
+      80% { opacity: 0.8; }
+      100% { transform: translate(-100px, 250px) rotate(45deg); opacity: 0; }
+    }
+
+    .dandelion {
+      position: absolute;
+      pointer-events: none;
+      transform-origin: bottom center;
+      animation: sway 6s ease-in-out infinite alternate;
+    }
+    .dandelion-1 { top: 20px; right: 50px; width: 150px; animation-delay: 0s; }
+    .dandelion-2 { top: 60px; right: 220px; width: 100px; animation-delay: -2s; }
+    .dandelion-3 { top: 100px; right: 150px; width: 80px; animation-delay: -4s; }
+
+    @keyframes sway {
+      0% { transform: rotate(-3deg); }
+      100% { transform: rotate(3deg); }
+    }
+
+    .grass-layer {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 120px;
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 30" preserveAspectRatio="none"><path d="M0,30 L2,15 L4,30 L6,10 L8,30 L10,18 L12,30 L14,12 L16,30 L18,20 L20,30 L22,8 L24,30 L26,16 L28,30 L30,22 L32,30 L34,10 L36,30 L38,18 L40,30 L42,14 L44,30 L46,20 L48,30 L50,12 L52,30 L54,16 L56,30 L58,22 L60,30 L62,10 L64,30 L66,18 L68,30 L70,14 L72,30 L74,20 L76,30 L78,8 L80,30 L82,16 L84,30 L86,22 L88,30 L90,12 L92,30 L94,18 L96,30 L98,10 L100,30 Z" fill="%236da321"/></svg>');
+      background-size: 300px 100%;
+      background-repeat: repeat-x;
+      animation: wind 4s ease-in-out infinite alternate;
+      z-index: 1;
+    }
+
+    .grass-layer-front {
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 100%;
+      height: 150px;
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 30" preserveAspectRatio="none"><path d="M0,30 L3,12 L5,30 L7,8 L10,30 L13,14 L15,30 L18,5 L20,30 L23,16 L25,30 L28,10 L30,30 L33,18 L35,30 L38,7 L40,30 L43,15 L45,30 L48,11 L50,30 L53,17 L55,30 L58,9 L60,30 L63,14 L65,30 L68,6 L70,30 L73,16 L75,30 L78,10 L80,30 L83,18 L85,30 L88,8 L90,30 L93,14 L95,30 L98,5 L100,30 Z" fill="%23558919"/></svg>');
+      background-size: 250px 100%;
+      background-repeat: repeat-x;
+      animation: wind 3s ease-in-out infinite alternate-reverse;
+      z-index: 2;
+    }
+
+    @keyframes wind {
+      0% { transform: skewX(-5deg); }
+      100% { transform: skewX(5deg); }
+    }
+
+    /* ---- LAYOUT & CONTENT ---- */
+    .wrapper {
+      max-width: 950px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 10;
+      padding: 0 15px; /* Padding for mobile */
+    }
+
     header {
-      position: sticky; top: 0; z-index: 10;
-      background: rgba(247, 249, 247, 0.95); backdrop-filter: blur(8px);
-      border-bottom: 1px solid rgba(0,0,0,0.06);
+      padding-top: 40px;
+      padding-bottom: 25px;
     }
-    .header-inner { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; }
-    .logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 18px; }
-    .logo-icon {
-      width: 36px; height: 36px; background: var(--green); border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
-      color: white; font-size: 20px;
-    }
-    .lang-switch {
-      display: flex; gap: 6px; background: white;
-      border-radius: 999px; padding: 4px; border: 1px solid rgba(0,0,0,0.08);
-    }
-    .lang-switch button {
-      padding: 6px 14px; border: none; background: transparent; cursor: pointer;
-      border-radius: 999px; font-size: 13px; font-weight: 600; color: var(--grey);
-      transition: all 0.15s;
-    }
-    .lang-switch button.active { background: var(--green); color: white; }
-    
-    .hero { padding: 56px 0 32px; text-align: center; }
-    .hero h1 { font-size: 32px; font-weight: 800; margin-bottom: 12px; line-height: 1.2; }
-    .hero p { font-size: 16px; color: var(--grey); max-width: 480px; margin: 0 auto 28px; }
-    .badge {
-      display: inline-flex; align-items: center; gap: 6px;
-      background: var(--green-light); color: #00210E;
-      padding: 6px 14px; border-radius: 999px; font-size: 13px; font-weight: 600;
-      margin-bottom: 16px;
-    }
-    .download-btn {
-      display: inline-flex; align-items: center; gap: 12px;
-      background: var(--green); color: white; padding: 16px 32px;
-      border-radius: var(--radius); text-decoration: none;
-      font-weight: 700; font-size: 17px; box-shadow: 0 4px 16px rgba(46, 125, 50, 0.3);
-      transition: transform 0.15s, box-shadow 0.15s;
-    }
-    .download-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(46, 125, 50, 0.4); }
-    .download-btn:active { transform: translateY(0); }
-    .version-info {
-      margin-top: 14px; font-size: 13px; color: var(--grey);
-    }
-    .qr-wrap {
-      margin-top: 24px; display: inline-block;
-      background: white; padding: 12px; border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    }
-    #qr-container { width: 140px; height: 140px; display: flex; align-items: center; justify-content: center; }
-    #qr-container img, #qr-container canvas { display: block; width: 140px; height: 140px; }
-    .qr-caption { font-size: 12px; color: var(--grey); margin-top: 6px; }
 
-    section { padding: 40px 0; }
-    section h2 { font-size: 22px; font-weight: 800; margin-bottom: 8px; }
-    section .sub { color: var(--grey); font-size: 14px; margin-bottom: 24px; }
+    h1.logo {
+      font-family: Georgia, serif;
+      font-size: 52px;
+      color: #fff;
+      font-weight: normal;
+      margin: 0 0 15px 0;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+      letter-spacing: -1px;
+    }
 
-    .features {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 14px;
+    nav {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      flex-wrap: wrap; /* Allows links to wrap on mobile */
     }
-    .feature {
-      background: white; padding: 18px; border-radius: var(--radius);
-      border: 1px solid rgba(0,0,0,0.05);
-    }
-    .feature-icon { font-size: 26px; margin-bottom: 8px; }
-    .feature h3 { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
-    .feature p { font-size: 13px; color: var(--grey); }
 
-    .steps { counter-reset: step; display: flex; flex-direction: column; gap: 14px; }
-    .step {
-      display: flex; gap: 14px; background: white; padding: 16px;
-      border-radius: var(--radius); border: 1px solid rgba(0,0,0,0.05);
+    nav a {
+      color: #222;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 14px;
+      cursor: pointer;
+      text-shadow: 1px 1px 0px rgba(255,255,255,0.5);
     }
-    .step::before {
-      counter-increment: step; content: counter(step);
-      flex-shrink: 0; width: 32px; height: 32px; border-radius: 999px;
-      background: var(--green); color: white;
-      display: flex; align-items: center; justify-content: center;
-      font-weight: 700; font-size: 15px;
-    }
-    .step-body h4 { font-size: 15px; font-weight: 700; margin-bottom: 2px; }
-    .step-body p { font-size: 13px; color: var(--grey); }
 
-    .faq { display: flex; flex-direction: column; gap: 10px; }
-    details {
-      background: white; padding: 14px 16px; border-radius: 12px;
-      border: 1px solid rgba(0,0,0,0.05);
+    nav a:hover, nav a.active {
+      color: #C62828;
+      text-decoration: underline;
     }
-    summary { cursor: pointer; font-weight: 600; font-size: 14px; }
-    details p { font-size: 13px; color: var(--grey); margin-top: 8px; }
 
-    footer {
-      padding: 32px 0 40px; text-align: center;
-      font-size: 13px; color: var(--grey);
-      border-top: 1px solid rgba(0,0,0,0.06); margin-top: 32px;
+    .container {
+      display: flex;
+      gap: 25px;
+      margin-bottom: 60px;
     }
-    footer a { color: var(--green); text-decoration: none; }
-    footer a:hover { text-decoration: underline; }
 
-    @media (max-width: 480px) {
-      .hero h1 { font-size: 26px; }
-      .hero { padding: 32px 0 24px; }
-      .download-btn { padding: 14px 24px; font-size: 15px; }
+    .main-content {
+      flex: 2;
+      background: #fff;
+      padding: 30px;
+      border: 1px solid #ccc;
+      box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
+      min-height: 500px;
+    }
+
+    /* Typography */
+    h2 {
+      font-family: Georgia, serif;
+      font-size: 24px;
+      color: #A63F0A;
+      font-weight: normal;
+      margin-top: 0;
+      margin-bottom: 20px;
+    }
+
+    p {
+      line-height: 1.7;
+      margin-bottom: 15px;
+    }
+
+    .dotted-line {
+      border-top: 1px dotted #999;
+      margin: 25px 0;
+    }
+
+    /* QR & Download */
+    .download-box {
+      text-align: center;
+      margin: 20px 0 30px 0;
+      padding: 30px;
+      background: #F8FCF8;
+      border: 1px dotted #ccc;
+    }
+
+    #qr-container {
+      display: inline-block;
+      background: #fff;
+      padding: 10px;
+      border: 1px solid #ccc;
+      margin-bottom: 20px;
+    }
+
+    .btn-download {
+      display: inline-block;
+      background: #2E7D32;
+      color: white;
+      padding: 14px 30px;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 4px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      text-align: center;
+    }
+
+    .btn-download:hover {
+      background: #1B5E20;
+    }
+
+    /* Installation Steps */
+    .steps {
+      padding-left: 20px;
+      margin-top: 15px;
+    }
+    .steps li {
+      margin-bottom: 15px;
+      line-height: 1.6;
+    }
+
+    /* Blog / News Styles */
+    .blog-post {
+      border-bottom: 1px dotted #ccc;
+      padding-bottom: 15px;
+      margin-bottom: 15px;
+    }
+    .blog-post:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+    .blog-date {
+      font-size: 11px;
+      color: #888;
+      margin-bottom: 5px;
+    }
+    .blog-title {
+      font-family: Georgia, serif;
+      color: #A63F0A;
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+    .blog-snippet {
+      font-size: 13px;
+      color: #555;
+      line-height: 1.6;
+    }
+
+    /* Page Routing */
+    .page-view { display: none; }
+    .page-view.active { display: block; }
+
+    /* ---- MOBILE RESPONSIVENESS ---- */
+    @media (max-width: 768px) {
+      h1.logo { font-size: 40px; }
+      nav { gap: 12px; justify-content: center; }
+      .container { flex-direction: column; gap: 20px; }
+      .main-content { padding: 20px; min-height: auto; }
+      .download-box { padding: 15px; }
+      .dandelion, .seed { display: none; } /* Hide bg elements to save performance */
+      body {
+        background: linear-gradient(to bottom, #9bcbf1 0%, #d2eafd 200px, #8ecc3b 200px, #6da321 100%);
+      }
     }
   </style>
 </head>
 <body>
 
-<header>
-  <div class="container header-inner">
-    <div class="logo">
-      <div class="logo-icon">📖</div>
-      <span>booksXR</span>
-    </div>
-    <div class="lang-switch">
-      <button id="btn-en" onclick="setLang('en')">EN</button>
-      <button id="btn-ne" onclick="setLang('ne')">नेपाली</button>
+  <!-- Background Elements -->
+  <div class="seed" style="top: 50px; left: 20%; animation-delay: 0s;"></div>
+  <div class="seed" style="top: 100px; left: 40%; animation-delay: 3s;"></div>
+  <div class="seed" style="top: 30px; left: 60%; animation-delay: 6s;"></div>
+  <div class="seed" style="top: 150px; left: 80%; animation-delay: 9s;"></div>
+
+  <svg class="dandelion dandelion-1" viewBox="0 0 100 100">
+    <path d="M50,50 L50,100" stroke="#fff" stroke-width="1.5" opacity="0.6"/>
+    <circle cx="50" cy="50" r="30" stroke="#fff" stroke-width="1" fill="none" opacity="0.5"/>
+    <circle cx="50" cy="50" r="20" stroke="#fff" stroke-width="1" fill="none" opacity="0.5"/>
+    <line x1="50" y1="50" x2="20" y2="20" stroke="#fff" stroke-width="1" opacity="0.5"/>
+    <line x1="50" y1="50" x2="80" y2="20" stroke="#fff" stroke-width="1" opacity="0.5"/>
+    <line x1="50" y1="50" x2="50" y2="10" stroke="#fff" stroke-width="1" opacity="0.5"/>
+    <line x1="50" y1="50" x2="10" y2="50" stroke="#fff" stroke-width="1" opacity="0.5"/>
+    <line x1="50" y1="50" x2="90" y2="50" stroke="#fff" stroke-width="1" opacity="0.5"/>
+  </svg>
+  <svg class="dandelion dandelion-2" viewBox="0 0 100 100">
+    <path d="M50,50 L50,100" stroke="#fff" stroke-width="1.5" opacity="0.6"/>
+    <circle cx="50" cy="50" r="30" stroke="#fff" stroke-width="1" fill="none" opacity="0.5"/>
+    <circle cx="50" cy="50" r="20" stroke="#fff" stroke-width="1" fill="none" opacity="0.5"/>
+    <line x1="50" y1="50" x2="20" y2="20" stroke="#fff" stroke-width="1" opacity="0.5"/>
+    <line x1="50" y1="50" x2="80" y2="20" stroke="#fff" stroke-width="1" opacity="0.5"/>
+    <line x1="50" y1="50" x2="50" y2="10" stroke="#fff" stroke-width="1" opacity="0.5"/>
+  </svg>
+
+  <div class="grass-layer"></div>
+  <div class="grass-layer-front"></div>
+
+  <div class="wrapper">
+    <header>
+      <h1 class="logo">booksXR</h1>
+      <nav>
+        <a onclick="showPage('home')" id="nav-home" class="active">Home</a>
+        <a onclick="showPage('news')" id="nav-news">News &amp; Updates</a>
+        <a onclick="showPage('faq')" id="nav-faq">FAQ &amp; Help</a>
+        <a onclick="showPage('about')" id="nav-about">About</a>
+        <a onclick="showPage('contact')" id="nav-contact">Contact</a>
+        <a onclick="showPage('status')" id="nav-status">Status</a>
+        <a onclick="showPage('report')" id="nav-report">Report</a>
+      </nav>
+    </header>
+
+    <div class="container">
+      <!-- LEFT COLUMN: MAIN CONTENT -->
+      <div class="main-content">
+        
+        <!-- HOME PAGE -->
+        <div id="page-home" class="page-view active">
+          <h2>Download booksXR</h2>
+          <p>booksXR is a completely free, 100% offline business finance app. Track income, expenses, loans, and reminders without the internet.</p>
+          
+          <div class="download-box">
+            <div id="qr-container"></div>
+            <div style="margin-bottom: 15px; font-size: 11px; color: #666;">Scan to download on your phone</div>
+            <a href="booksXR-v1.1.2.apk" id="download-btn" class="btn-download">Download APK</a>
+            <div style="margin-top: 10px; font-size: 12px; color: #888;">Latest Version: <span id="version-text">...</span></div>
+          </div>
+
+          <div class="dotted-line"></div>
+
+          <h2>How to Install</h2>
+          <p>Takes about 30 seconds. No Google Play Store required.</p>
+          <ol class="steps">
+            <li><strong>Download the APK:</strong> Tap the download button above. The file will save to your Downloads folder.</li>
+            <li><strong>Open the file:</strong> Tap the downloaded file from your notification bar or Files app.</li>
+            <li><strong>Allow installation:</strong> Android will ask to allow "Install from unknown sources" — turn it on for your browser. This is normal for apps outside the Play Store.</li>
+            <li><strong>Install &amp; open:</strong> Tap Install, then Open. If Google Play Protect warns you, tap "Install anyway" — the app is safe.</li>
+          </ol>
+        </div>
+
+        <!-- NEWS PAGE (FULL LIST) -->
+        <div id="page-news" class="page-view">
+          <h2>News &amp; Updates</h2>
+          <div id="full-news-list"></div>
+        </div>
+
+        <!-- FAQ PAGE -->
+        <div id="page-faq" class="page-view">
+          <h2>FAQ &amp; Help</h2>
+          <p><strong>Is it really free?</strong><br>Yes — no ads, no in-app purchases, no subscription. Made for family and community use.</p>
+          <p><strong>Does it need internet?</strong><br>No. The app works 100% offline. All your data stays on your phone. You only need internet to download the app or to upload a backup to Google Drive (optional).</p>
+          <p><strong>Where is my data stored?</strong><br>On your phone, in a private database. Nothing is sent to us or any server. Only you can see it.</p>
+          <p><strong>How do I update?</strong><br>Come back to this site when a new version is available. Download the new APK and tap Install — it will update over the old one and keep all your data.</p>
+        </div>
+
+        <!-- ABOUT PAGE -->
+        <div id="page-about" class="page-view">
+          <h2>About booksXR</h2>
+          <p>booksXR was built to solve a real problem for small business owners. Most finance apps require an internet connection, force you to create an account, and charge a monthly subscription.</p>
+          <p>We wanted an app that just works. A digital business diary that respects your privacy. That is why booksXR is:</p>
+          <ul>
+            <li><strong>100% Offline:</strong> Your data never leaves your device.</li>
+            <li><strong>Private:</strong> No tracking, no analytics, no cloud.</li>
+            <li><strong>Free:</strong> No ads, no premium tiers.</li>
+            <li><strong>Bilingual:</strong> Full support for English and नेपाली.</li>
+          </ul>
+        </div>
+
+        <!-- CONTACT PAGE -->
+        <div id="page-contact" class="page-view">
+          <h2>Contact Us</h2>
+          <p>Have questions, suggestions, or need help with the app?</p>
+          <p>Send us an email at: <br><strong><a href="mailto:hello@booksxr.app" style="color:#2E7D32; font-size:16px;">hello@booksxr.app</a></strong></p>
+          <p>We usually reply within 24-48 hours.</p>
+        </div>
+
+        <!-- STATUS PAGE -->
+        <div id="page-status" class="page-view">
+          <h2>App Status</h2>
+          <p><strong>Existing Features (Live Now):</strong></p>
+          <ul style="line-height: 1.8;">
+            <li>Income &amp; Expense Tracking</li>
+            <li>Lending &amp; Borrowing Ledger</li>
+            <li>Smart Reminders &amp; Notifications</li>
+            <li>PDF Report Generation</li>
+            <li>PIN &amp; Fingerprint Security</li>
+            <li>Encrypted Backup &amp; Restore</li>
+            <li>English &amp; Nepali Languages</li>
+          </ul>
+          <div class="dotted-line"></div>
+          <p><strong>Upcoming Features (In Development):</strong></p>
+          <ul style="line-height: 1.8; color: #666;">
+            <li>📊 Charts &amp; Visual Graphs</li>
+            <li>🏦 Multiple Accounts (Bank / Cash / Wallet)</li>
+            <li>🔁 Recurring Transactions</li>
+          </ul>
+        </div>
+
+        <!-- REPORT PAGE -->
+        <div id="page-report" class="page-view">
+          <h2>Report a Problem</h2>
+          <p>Found a bug? Something not working as expected?</p>
+          <p>Please send an email to <strong><a href="mailto:hello@booksxr.app?subject=Bug%20Report" style="color:#C62828;">hello@booksxr.app</a></strong> with the following details:</p>
+          <ul style="line-height: 1.8;">
+            <li>Your phone model (e.g., Redmi Note 12)</li>
+            <li>Android version (e.g., Android 13)</li>
+            <li>What you were trying to do</li>
+            <li>What went wrong</li>
+          </ul>
+          <p style="margin-top:20px;">
+            <a href="mailto:hello@booksxr.app?subject=Bug%20Report" class="btn-download" style="font-size:14px; padding:10px 20px;">Email Bug Report</a>
+          </p>
+        </div>
+
+      </div>
+
+      <!-- RIGHT COLUMN: SIDEBAR (LATEST 3 UPDATES) -->
+      <div class="sidebar" style="flex: 1;">
+        <div class="widget">
+          <h2 style="font-size: 18px; color: #fff; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.5); padding-bottom: 5px; text-shadow: 1px 1px 1px rgba(0,0,0,0.3);">Recent Updates</h2>
+          <div class="widget-content" style="background: rgba(255, 255, 255, 0.9); padding: 18px; border: 1px solid #cce6cc; box-shadow: 2px 2px 4px rgba(0,0,0,0.1);">
+            <!-- Latest 3 Updates will be injected here by JS -->
+            <div id="sidebar-news-list"></div>
+            
+            <div style="margin-top: 15px; text-align: center;">
+              <a onclick="showPage('news')" style="color: #A63F0A; font-weight: bold; text-decoration: underline; cursor: pointer; font-size: 12px;">View All Updates &rarr;</a>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-</header>
 
-<main>
-  <div class="hero container">
-    <span class="badge" data-i18n="badge">100% Offline • Free</span>
-    <h1 data-i18n="hero_title">Business Finance App for Real Life</h1>
-    <p data-i18n="hero_sub">Track income, expenses, loans, and reminders. Works without internet. In English and नेपाली.</p>
-    
-    <a id="download-btn" class="download-btn" href="booksXR-v1.1.1.apk" download>
-      <span style="font-size: 22px;">⬇</span>
-      <span data-i18n="download_btn">Download APK</span>
-    </a>
-    <div class="version-info">
-      <span data-i18n="version_label">Version</span>: <strong id="version-number">1.1.1</strong>
-      • <span id="apk-size">~20 MB</span>
-    </div>
+  <!-- Scripts -->
+  <script>
+    // ---- DATA MANAGEMENT FOR UPDATES ----
+    // Just add new updates to the TOP of this array!
+    const appUpdates = [
+      {
+        date: "October 26, 2026",
+        title: "Version 1.1.2 Released!",
+        content: "We fixed the large number overlapping bugs, added full support for the Nepali language, and improved the reliability of reminders so they fire exactly on time."
+      },
+      {
+        date: "October 20, 2026",
+        title: "Website Launched",
+        content: "booksXR now has an official home on the web! You can download the app directly from here and stay updated with the latest news."
+      },
+      {
+        date: "October 15, 2026",
+        title: "Security Update",
+        content: "Added fingerprint unlock and auto-lock features to keep your financial data safe from prying eyes."
+      },
+      {
+        date: "October 10, 2026",
+        title: "Bilingual Support",
+        content: "Added full support for the Nepali language across the entire app."
+      }
+    ];
 
-    <div class="qr-wrap">
-      <div id="qr-container"></div>
-      <div class="qr-caption" data-i18n="qr_caption">Scan to download on your phone</div>
-    </div>
-  </div>
-
-  <section class="container">
-    <h2 data-i18n="features_title">Everything You Need</h2>
-    <p class="sub" data-i18n="features_sub">No internet, no accounts, no cloud — just your business.</p>
-    <div class="features">
-      <div class="feature">
-        <div class="feature-icon">💰</div>
-        <h3 data-i18n="f1_t">Income &amp; Expense</h3>
-        <p data-i18n="f1_d">Track daily money in and out with custom categories.</p>
-      </div>
-      <div class="feature">
-        <div class="feature-icon">🤝</div>
-        <h3 data-i18n="f2_t">Loans &amp; Repayments</h3>
-        <p data-i18n="f2_d">Record money lent or borrowed. Partial repayments auto-calculated.</p>
-      </div>
-      <div class="feature">
-        <div class="feature-icon">⏰</div>
-        <h3 data-i18n="f3_t">Smart Reminders</h3>
-        <p data-i18n="f3_d">Get notified to collect money or pay bills — even offline.</p>
-      </div>
-      <div class="feature">
-        <div class="feature-icon">📊</div>
-        <h3 data-i18n="f4_t">Reports &amp; PDF</h3>
-        <p data-i18n="f4_d">Monthly summaries with category breakdown. Export as PDF.</p>
-      </div>
-      <div class="feature">
-        <div class="feature-icon">🔒</div>
-        <h3 data-i18n="f5_t">PIN &amp; Fingerprint</h3>
-        <p data-i18n="f5_d">Lock the app. Auto-lock after inactivity.</p>
-      </div>
-      <div class="feature">
-        <div class="feature-icon">💾</div>
-        <h3 data-i18n="f6_t">Backup &amp; Restore</h3>
-        <p data-i18n="f6_d">Save encrypted backups to Google Drive or SD card.</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="container">
-    <h2 data-i18n="install_title">How to Install</h2>
-    <p class="sub" data-i18n="install_sub">Takes about 30 seconds.</p>
-    <div class="steps">
-      <div class="step">
-        <div class="step-body">
-          <h4 data-i18n="s1_t">Download the APK</h4>
-          <p data-i18n="s1_d">Tap the download button above. The file will save to your Downloads folder.</p>
+    // Function to render the updates
+    function renderNews() {
+      const sidebarContainer = document.getElementById('sidebar-news-list');
+      const fullContainer = document.getElementById('full-news-list');
+      
+      // 1. Render Sidebar (Only first 3)
+      sidebarContainer.innerHTML = appUpdates.slice(0, 3).map(post => `
+        <div class="blog-post">
+          <div class="blog-date">${post.date}</div>
+          <div class="blog-title">${post.title}</div>
+          <div class="blog-snippet">${post.content}</div>
         </div>
-      </div>
-      <div class="step">
-        <div class="step-body">
-          <h4 data-i18n="s2_t">Open the file</h4>
-          <p data-i18n="s2_d">Tap the downloaded file from your notification bar or Files app.</p>
+      `).join('');
+
+      // 2. Render Full News Page (All posts)
+      fullContainer.innerHTML = appUpdates.map(post => `
+        <div class="blog-post">
+          <div class="blog-date">${post.date}</div>
+          <div class="blog-title">${post.title}</div>
+          <div class="blog-snippet">${post.content}</div>
         </div>
-      </div>
-      <div class="step">
-        <div class="step-body">
-          <h4 data-i18n="s3_t">Allow installation</h4>
-          <p data-i18n="s3_d">Android will ask to allow "Install from unknown sources" — turn it on for your browser or Files app. This is normal for apps outside the Play Store.</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-body">
-          <h4 data-i18n="s4_t">Install &amp; open</h4>
-          <p data-i18n="s4_d">Tap Install, then Open. If Google Play Protect warns you, tap "Install anyway" — the app is safe and made by us.</p>
-        </div>
-      </div>
-    </div>
-  </section>
+      `).join('');
+    }
 
-  <section class="container">
-    <h2 data-i18n="faq_title">FAQ</h2>
-    <p class="sub" data-i18n="faq_sub">Common questions.</p>
-    <div class="faq">
-      <details>
-        <summary data-i18n="q1_q">Is it really free?</summary>
-        <p data-i18n="q1_a">Yes — no ads, no in-app purchases, no subscription. Made for family and community use.</p>
-      </details>
-      <details>
-        <summary data-i18n="q2_q">Does it need internet?</summary>
-        <p data-i18n="q2_a">No. The app works 100% offline. All your data stays on your phone. You only need internet to download the app or to upload a backup to Google Drive (optional).</p>
-      </details>
-      <details>
-        <summary data-i18n="q3_q">Where is my data stored?</summary>
-        <p data-i18n="q3_a">On your phone, in a private database. Nothing is sent to us or any server. Only you can see it.</p>
-      </details>
-      <details>
-        <summary data-i18n="q4_q">How do I update?</summary>
-        <p data-i18n="q4_a">Come back to this site when a new version is available. Download the new APK and tap Install — it will update over the old one and keep all your data.</p>
-      </details>
-      <details>
-        <summary data-i18n="q5_q">Is it safe to install?</summary>
-        <p data-i18n="q5_a">Yes. The app is signed with a consistent signature so Android will verify updates are from the same developer. No harmful code. If you have doubts, run it through VirusTotal before installing.</p>
-      </details>
-      <details>
-        <summary data-i18n="q6_q">Can I use it on iPhone?</summary>
-        <p data-i18n="q6_a">No — Android only for now. iPhone users cannot install APK files.</p>
-      </details>
-    </div>
-  </section>
-</main>
+    // Call the render function on load
+    renderNews();
 
-<footer>
-  <div class="container">
-    <p><strong>booksXR</strong> v<span id="footer-version">1.1.1</span> • Made for family &amp; small business</p>
-    <p style="margin-top: 8px;">Questions? <a href="mailto:hello@booksxr.app">hello@booksxr.app</a></p>
-  </div>
-</footer>
 
-<script src="qrcode.min.js"></script>
-<script>
-// ---- Language strings ----
-const T = {
-  en: {
-    badge: "100% Offline • Free",
-    hero_title: "Business Finance App for Real Life",
-    hero_sub: "Track income, expenses, loans, and reminders. Works without internet. In English and नेपाली.",
-    download_btn: "Download APK",
-    version_label: "Version",
-    qr_caption: "Scan to download on your phone",
-    features_title: "Everything You Need",
-    features_sub: "No internet, no accounts, no cloud — just your business.",
-    f1_t: "Income & Expense", f1_d: "Track daily money in and out with custom categories.",
-    f2_t: "Loans & Repayments", f2_d: "Record money lent or borrowed. Partial repayments auto-calculated.",
-    f3_t: "Smart Reminders", f3_d: "Get notified to collect money or pay bills — even offline.",
-    f4_t: "Reports & PDF", f4_d: "Monthly summaries with category breakdown. Export as PDF.",
-    f5_t: "PIN & Fingerprint", f5_d: "Lock the app. Auto-lock after inactivity.",
-    f6_t: "Backup & Restore", f6_d: "Save encrypted backups to Google Drive or SD card.",
-    install_title: "How to Install",
-    install_sub: "Takes about 30 seconds.",
-    s1_t: "Download the APK", s1_d: "Tap the download button above. The file saves to your Downloads folder.",
-    s2_t: "Open the file", s2_d: "Tap the downloaded file from your notification bar or Files app.",
-    s3_t: "Allow installation", s3_d: "Android will ask to allow Install from unknown sources — turn it on for your browser. This is normal for apps outside the Play Store.",
-    s4_t: "Install & open", s4_d: "Tap Install, then Open. If Google Play Protect warns you, tap Install anyway — the app is safe.",
-    faq_title: "FAQ", faq_sub: "Common questions.",
-    q1_q: "Is it really free?", q1_a: "Yes — no ads, no in-app purchases, no subscription.",
-    q2_q: "Does it need internet?", q2_a: "No. The app works 100% offline. All your data stays on your phone.",
-    q3_q: "Where is my data stored?", q3_a: "On your phone, in a private database. Nothing is sent to us or any server.",
-    q4_q: "How do I update?", q4_a: "Come back when a new version is available. Download and install — data is preserved.",
-    q5_q: "Is it safe to install?", q5_a: "Yes. Signed by us. No harmful code. Run through VirusTotal if you want extra assurance.",
-    q6_q: "Can I use it on iPhone?", q6_a: "No — Android only for now."
-  },
-  ne: {
-    badge: "१००% अफलाइन • निःशुल्क",
-    hero_title: "वास्तविक जीवनको लागि व्यापार वित्त एप",
-    hero_sub: "आय, खर्च, ऋण र सम्झनाहरू ट्र्याक गर्नुहोस्। इन्टरनेट बिना पनि चल्छ। अंग्रेजी र नेपालीमा।",
-    download_btn: "APK डाउनलोड गर्नुहोस्",
-    version_label: "संस्करण",
-    qr_caption: "फोनमा डाउनलोड गर्न स्क्यान गर्नुहोस्",
-    features_title: "तपाईंलाई चाहिने सबै कुरा",
-    features_sub: "इन्टरनेट छैन, खाता छैन, क्लाउड छैन — तपाईंको व्यापार मात्र।",
-    f1_t: "आय र खर्च", f1_d: "दैनिक पैसा आउने र जाने कुरा कस्टम श्रेणीसँग ट्र्याक गर्नुहोस्।",
-    f2_t: "ऋण र भुक्तानी", f2_d: "दिएको वा लिएको पैसा रेकर्ड गर्नुहोस्। आंशिक भुक्तानी स्वतः गणना।",
-    f3_t: "स्मार्ट सम्झनाहरू", f3_d: "पैसा उठाउन वा बिल तिर्न सूचना पाउनुहोस् — अफलाइन पनि।",
-    f4_t: "प्रतिवेदन र PDF", f4_d: "मासिक सारांश श्रेणी विभाजनसहित। PDF मा निर्यात गर्नुहोस्।",
-    f5_t: "PIN र औंलाको छाप", f5_d: "एप लक गर्नुहोस्। निष्क्रियतापछि स्वतः लक।",
-    f6_t: "ब्याकअप र पुनर्स्थापना", f6_d: "इन्क्रिप्टेड ब्याकअप Google Drive वा SD कार्डमा सुरक्षित गर्नुहोस्।",
-    install_title: "कसरी इन्स्टल गर्ने",
-    install_sub: "करिब ३० सेकेन्ड लाग्छ।",
-    s1_t: "APK डाउनलोड गर्नुहोस्", s1_d: "माथिको डाउनलोड बटन थिच्नुहोस्। फाइल तपाईंको Downloads फोल्डरमा जान्छ।",
-    s2_t: "फाइल खोल्नुहोस्", s2_d: "सूचना बार वा Files एपबाट डाउनलोड भएको फाइलमा थिच्नुहोस्।",
-    s3_t: "इन्स्टल गर्न अनुमति दिनुहोस्", s3_d: "Android ले अज्ञात स्रोतबाट इन्स्टल गर्न अनुमति माग्नेछ — ब्राउजरको लागि अन गर्नुहोस्। Play Store बाहिरका एपहरूको लागि यो सामान्य हो।",
-    s4_t: "इन्स्टल र खोल्नुहोस्", s4_d: "Install थिच्नुहोस्, त्यसपछि Open। Google Play Protect ले चेतावनी दिए Install anyway थिच्नुहोस् — एप सुरक्षित छ।",
-    faq_title: "प्रश्नोत्तर", faq_sub: "सामान्य प्रश्नहरू।",
-    q1_q: "के यो साँच्चै निःशुल्क छ?", q1_a: "हो — कुनै विज्ञापन, इन-एप खरिद, वा सदस्यता छैन।",
-    q2_q: "के इन्टरनेट चाहिन्छ?", q2_a: "चाहिँदैन। एप १००% अफलाइन चल्छ। तपाईंको सबै डाटा फोनमै रहन्छ।",
-    q3_q: "मेरो डाटा कहाँ रहन्छ?", q3_a: "तपाईंको फोनमा, निजी डाटाबेसमा। हामी वा कुनै सर्भरमा केही पठाइँदैन।",
-    q4_q: "कसरी अपडेट गर्ने?", q4_a: "नयाँ संस्करण आएपछि यहाँ फर्केर डाउनलोड र इन्स्टल गर्नुहोस् — डाटा सुरक्षित रहन्छ।",
-    q5_q: "इन्स्टल गर्न सुरक्षित छ?", q5_a: "हो। हामीले हस्ताक्षर गरेको। कुनै हानिकारक कोड छैन।",
-    q6_q: "iPhone मा प्रयोग गर्न सकिन्छ?", q6_a: "अहिलेलाई Android मात्र।"
-  }
-};
+    // ---- QR CODE & VERSION FETCH ----
+    if (typeof QRCode !== 'undefined') {
+      new QRCode(document.getElementById('qr-container'), {
+        text: window.location.href,
+        width: 130,
+        height: 130,
+        colorDark: "#1A1C1A",
+        colorLight: "#FFFFFF",
+        correctLevel: QRCode.CorrectLevel.M
+      });
+    }
 
-function setLang(lang) {
-  localStorage.setItem('booksxr_lang', lang);
-  document.documentElement.lang = lang;
-  document.querySelectorAll('[data-i18n]').forEach(el => {
-    const key = el.getAttribute('data-i18n');
-    if (T[lang][key]) el.textContent = T[lang][key];
-  });
-  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
-  document.getElementById('btn-ne').classList.toggle('active', lang === 'ne');
-}
+    fetch('version.json').then(r => r.json()).then(data => {
+      const btn = document.getElementById('download-btn');
+      if (btn) {
+        btn.href = data.apkFile;
+        btn.textContent = `Download APK v${data.version}`;
+        document.getElementById('version-text').textContent = data.version;
+      }
+    }).catch(() => {});
 
-const savedLang = localStorage.getItem('booksxr_lang') || 'en';
-setLang(savedLang);
 
-// Self-hosted QR code — no external API
-if (typeof QRCode !== 'undefined') {
-  new QRCode(document.getElementById('qr-container'), {
-    text: window.location.href,
-    width: 140,
-    height: 140,
-    colorDark: "#1A1C1A",
-    colorLight: "#FFFFFF",
-    correctLevel: QRCode.CorrectLevel.M
-  });
-}
-
-// Load version from version.json
-fetch('version.json').then(r => r.json()).then(data => {
-  document.getElementById('version-number').textContent = data.version;
-  document.getElementById('footer-version').textContent = data.version;
-  document.getElementById('apk-size').textContent = '~' + data.size + ' MB';
-  const btn = document.getElementById('download-btn');
-  btn.href = data.apkFile;
-  btn.setAttribute('download', data.apkFile);
-}).catch(() => {});
-</script>
+    // ---- SPA ROUTING ----
+    function showPage(pageId) {
+      // Hide all pages
+      document.querySelectorAll('.page-view').forEach(page => page.classList.remove('active'));
+      // Show selected page
+      document.getElementById('page-' + pageId).classList.add('active');
+      // Update nav active state
+      document.querySelectorAll('nav a').forEach(link => link.classList.remove('active'));
+      document.getElementById('nav-' + pageId).classList.add('active');
+      
+      // Scroll to top when changing pages
+      window.scrollTo(0, 0);
+    }
+  </script>
 </body>
 </html>
-'@
-[System.IO.File]::WriteAllText(
-    "D:\booksxr-website\index.html",
-    $html,
-    (New-Object System.Text.UTF8Encoding($false))
-)
-Write-Host "index.html updated with self-hosted QR" -ForegroundColor Green
