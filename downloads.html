@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>APK Downloads — openglix</title>
+  <meta name="description" content="Download all openglix APKs, with QR codes for easy phone installs.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="">
+<header class="site-header">
+  <div class="header-inner">
+    <a class="logo" href="index.html">openglix</a>
+    <nav class="main-nav" id="mainNav">
+      <a href="index.html" class="nav-link" data-nav="index">Home</a>
+      <a href="updates.html" class="nav-link" data-nav="updates">Updates &amp; Blog</a>
+      <a href="contact.html" class="nav-link" data-nav="contact">Contact</a>
+      <a href="status.html" class="nav-link" data-nav="status">Status</a>
+      <div class="more-wrap">
+        <button class="more-btn" id="moreBtn" type="button">More ▾</button>
+        <div class="more-menu" id="moreMenu">
+          <a href="faq.html" data-nav="faq">FAQ &amp; Help</a>
+          <a href="about.html" data-nav="about">About</a>
+          <a href="report.html" data-nav="report">Report</a>
+          <a href="downloads.html" data-nav="downloads">APK Downloads</a>
+        </div>
+      </div>
+    </nav>
+    <button class="menu-toggle" id="menuToggle" type="button" aria-label="Menu">☰</button>
+  </div>
+</header>
+<main class="wrapper">
+  <div class="panel">
+    <h2>APK Downloads</h2>
+    <p>Scan the QR code with your phone or use the download button. Each card is generated from <code>data/apps.json</code>.</p>
+    <div id="downloads-apps" class="app-grid"></div>
+  </div>
+</main>
+<footer class="site-footer">
+  © 2026 openglix. Apps are free and offline-first.
+</footer>
+<script src="js/qrcode.min.js"></script>
+<script src="js/app.js"></script>
+
+</body>
+</html>
