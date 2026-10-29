@@ -1,0 +1,35 @@
+{
+  "apps": [
+    {
+      "id": "booksxr",
+      "name": "booksXR",
+      "version": "1.1.1",
+      "apkFile": "apk/booksXR-v1.1.1.apk",
+      "size": "11 MB",
+      "date": "2026-10-26",
+      "description": "Free offline business finance app for income, expenses, loans, reminders, PDF reports, and bilingual use.",
+      "changelog": [
+        "Full bilingual support — English and Nepali",
+        "Fixed reminders delayed by 6 minutes",
+        "Custom categories",
+        "PDF export with category breakdown",
+        "Fixed '?' showing instead of minus sign",
+        "Bigger auto-shrinking balance display"
+      ]
+    },
+    {
+      "id": "booksxrs",
+      "name": "booksXRS",
+      "version": "1.0.0",
+      "apkFile": "apk/booksXRS-v1.0.0.apk",
+      "size": "13.3 MB",
+      "date": "2026-10-29",
+      "description": "New openglix app build. Update this description in data/apps.json with the final app details.",
+      "changelog": [
+        "Initial release",
+        "Offline-first finance workflow",
+        "Direct APK download from openglix"
+      ]
+    }
+  ]
+}

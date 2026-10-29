@@ -1,0 +1,85 @@
+{
+  "posts": [
+    {
+      "id": "booksxrs-v1-0-0",
+      "type": "update",
+      "date": "2026-10-29",
+      "dateLabel": "October 29, 2026",
+      "title": "booksXRS v1.0.0 Released",
+      "excerpt": "A new openglix app build is now available for direct APK download, with QR scanning and release notes.",
+      "readTime": "2 min read",
+      "author": "openglix Team",
+      "tags": ["booksXRS", "Release", "Updates"],
+      "content": [
+        "booksXRS v1.0.0 is now listed on openglix. You can download it from the APK Downloads page or scan its QR code with your phone.",
+        "This is the first public build for booksXRS. The listing includes version information, file size, and changelog details.",
+        "To add more information later, edit data/apps.json and data/updates.json. No rebuild step is required."
+      ]
+    },
+    {
+      "id": "booksxr-v1-1-1",
+      "type": "update",
+      "date": "2026-10-26",
+      "dateLabel": "October 26, 2026",
+      "title": "booksXR v1.1.1 Released",
+      "excerpt": "Full bilingual support, reminder fixes, custom categories, and PDF export with category breakdown.",
+      "readTime": "3 min read",
+      "author": "openglix Team",
+      "tags": ["booksXR", "Release", "Updates"],
+      "content": [
+        "booksXR v1.1.1 is now available. This release focuses on reliability, bilingual support, and cleaner reports.",
+        "Highlights include full English and Nepali support, reminder timing fixes, custom categories, and PDF export with category breakdown.",
+        "The update also fixes the issue where a question mark appeared instead of a minus sign, and improves the balance display for large numbers.",
+        "Download the new APK from the APK Downloads page and install it over your existing version. Your app data is normally preserved."
+      ]
+    },
+    {
+      "id": "install-apk-safely",
+      "type": "blog",
+      "date": "2026-10-24",
+      "dateLabel": "October 24, 2026",
+      "title": "How to Install an APK Safely on Android",
+      "excerpt": "A simple guide to downloading, verifying, and installing APK files outside the Play Store.",
+      "readTime": "4 min read",
+      "author": "openglix Team",
+      "tags": ["Guides", "Android", "Install"],
+      "content": [
+        "Android allows you to install apps from APK files, but you should only install APKs from sources you trust.",
+        "Download the APK from openglix and open it from your notification bar or Files app. Android may ask you to allow installation from unknown sources for your browser.",
+        "If Google Play Protect shows a warning, read it carefully. Only continue if you trust the source and the file you downloaded.",
+        "After installation, open the app and check that the version matches the release notes on this site."
+      ]
+    },
+    {
+      "id": "website-launched",
+      "type": "news",
+      "date": "2026-10-20",
+      "dateLabel": "October 20, 2026",
+      "title": "openglix Website Launched",
+      "excerpt": "openglix now has an official home for APK downloads, release notes, and guides.",
+      "readTime": "1 min read",
+      "author": "openglix Team",
+      "tags": ["openglix", "News"],
+      "content": [
+        "openglix now has an official website. You can download apps directly, scan QR codes, and read the latest updates.",
+        "The site is static and data-driven. Apps and posts are managed from JSON files, so publishing a new release is quick."
+      ]
+    },
+    {
+      "id": "security-update",
+      "type": "update",
+      "date": "2026-10-15",
+      "dateLabel": "October 15, 2026",
+      "title": "Security Update",
+      "excerpt": "Added fingerprint unlock and auto-lock features to keep financial data safer.",
+      "readTime": "2 min read",
+      "author": "openglix Team",
+      "tags": ["booksXR", "Security", "Updates"],
+      "content": [
+        "A security update added fingerprint unlock and auto-lock features.",
+        "These features help keep your financial data safer when your phone is shared or left unattended.",
+        "You can manage security options inside the app settings."
+      ]
+    }
+  ]
+}

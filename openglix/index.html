@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>openglix — Apps, Updates & Downloads</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo" href="#" data-page="home">openglix</a>
+      <nav class="main-nav" id="mainNav">
+        <a href="#" data-page="home" class="nav-link active">Home</a>
+        <a href="#" data-page="blog" class="nav-link">Updates &amp; Blog</a>
+        <a href="#" data-page="contact" class="nav-link">Contact</a>
+        <a href="#" data-page="status" class="nav-link">Status</a>
+        <div class="more-wrap">
+          <button class="more-btn" id="moreBtn" type="button">More ▾</button>
+          <div class="more-menu" id="moreMenu">
+            <a href="#" data-page="faq">FAQ &amp; Help</a>
+            <a href="#" data-page="about">About</a>
+            <a href="#" data-page="report">Report</a>
+            <a href="#" data-page="downloads">APK Downloads</a>
+          </div>
+        </div>
+      </nav>
+      <button class="menu-toggle" id="menuToggle" type="button" aria-label="Menu">☰</button>
+    </div>
+  </header>
+
+  <main class="wrapper">
+    <!-- HOME -->
+    <section id="page-home" class="page-view active">
+      <div class="panel">
+        <h2>Install openglix apps</h2>
+        <p>openglix apps are free, offline-first, and distributed as direct APK downloads. No Play Store account is required.</p>
+        <ol class="steps">
+          <li><strong>Download the APK:</strong> Open the APK Downloads page and tap the download button for your app.</li>
+          <li><strong>Open the file:</strong> Tap the downloaded file from your notification bar or Files app.</li>
+          <li><strong>Allow installation:</strong> Android may ask to allow “Install from unknown sources” for your browser. This is normal for APKs outside the Play Store.</li>
+          <li><strong>Install &amp; open:</strong> Tap Install, then Open. If Play Protect warns you, choose “Install anyway” only for APKs you trust from this site.</li>
+        </ol>
+        <p><a class="btn-download" href="#" data-page="downloads">Browse APK Downloads</a></p>
+      </div>
+
+      <div class="panel">
+        <div class="section-head">
+          <h2>Recent News &amp; Blog</h2>
+          <a href="#" data-page="blog">View all →</a>
+        </div>
+        <div id="home-posts" class="recent-list">
+          <p class="loading">Loading updates…</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- UPDATES & BLOG -->
+    <section id="page-blog" class="page-view blog-page">
+      <div id="blog-list-view">
+        <div class="blog-hero">
+          <span class="hero-badge">GUIDES &amp; ARTICLES</span>
+          <h1>OPENGLIX_BLOG</h1>
+          <p>Practical tutorials, release notes, and updates for openglix apps, APK installation, offline workflows, and Android tips.</p>
+        </div>
+        <div id="blog-filters" class="tag-filters"></div>
+        <div id="blog-list" class="blog-grid">
+          <p class="loading">Loading posts…</p>
+        </div>
+      </div>
+      <div id="blog-detail" class="blog-detail hidden"></div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="page-faq" class="page-view">
+      <div class="panel">
+        <h2>FAQ &amp; Help</h2>
+        <p><strong>Is it really free?</strong><br>Yes. openglix apps are free, with no ads, no subscriptions, and no in-app purchases.</p>
+        <p><strong>Does it need internet?</strong><br>No. The apps work offline. You only need internet to download the APK or optionally upload a backup.</p>
+        <p><strong>Where is my data stored?</strong><br>On your phone, in the app’s private database. Data is not sent to openglix servers.</p>
+        <p><strong>How do I update?</strong><br>Download the new APK from this site and install it over the old version. Your existing app data is normally kept.</p>
+
+        <div class="dotted-line"></div>
+        <h2>Published Apps &amp; Downloads</h2>
+        <p>These are the APKs currently published by openglix.</p>
+        <div id="faq-apps" class="app-grid"></div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="page-about" class="page-view">
+      <div class="panel">
+        <h2>About openglix</h2>
+        <p>openglix builds small, practical, offline-first Android apps. The goal is simple: useful software that respects your privacy and does not force accounts or subscriptions.</p>
+        <ul>
+          <li><strong>Offline-first:</strong> Your data stays on your device.</li>
+          <li><strong>Private:</strong> No tracking or cloud dependency.</li>
+          <li><strong>Free:</strong> No ads and no premium tiers.</li>
+          <li><strong>Direct:</strong> APK downloads and clear release notes.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="page-contact" class="page-view">
+      <div class="panel">
+        <h2>Contact</h2>
+        <p>Have questions, suggestions, or need help with an app?</p>
+        <p>Email: <strong><a href="mailto:hello@openglix.com" class="text-link">hello@openglix.com</a></strong></p>
+        <p>Replace this email in <code>index.html</code> if your address is different.</p>
+      </div>
+    </section>
+
+    <!-- STATUS -->
+    <section id="page-status" class="page-view">
+      <div class="panel">
+        <h2>App Status</h2>
+        <p><strong>Live now:</strong></p>
+        <ul class="status-list">
+          <li>booksXR v1.1.1 — available</li>
+          <li>booksXRS v1.0.0 — available</li>
+          <li>Direct APK downloads with QR codes</li>
+          <li>Updates &amp; blog system powered by JSON</li>
+        </ul>
+        <div class="dotted-line"></div>
+        <p><strong>Upcoming:</strong></p>
+        <ul class="status-list muted">
+          <li>More app listings</li>
+          <li>Expanded guides and tutorials</li>
+          <li>Improved release history</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- REPORT -->
+    <section id="page-report" class="page-view">
+      <div class="panel">
+        <h2>Report a Problem</h2>
+        <p>Found a bug? Send an email with these details:</p>
+        <ul class="status-list">
+          <li>Phone model</li>
+          <li>Android version</li>
+          <li>App name and version</li>
+          <li>What you were trying to do</li>
+          <li>What went wrong</li>
+        </ul>
+        <p style="margin-top:18px;">
+          <a class="btn-download" href="mailto:hello@openglix.com?subject=openglix%20Bug%20Report">Email Bug Report</a>
+        </p>
+      </div>
+    </section>
+
+    <!-- APK DOWNLOADS -->
+    <section id="page-downloads" class="page-view">
+      <div class="panel">
+        <h2>APK Downloads</h2>
+        <p>Scan the QR code with your phone or use the download button. Each card is generated from <code>data/apps.json</code>.</p>
+        <div id="downloads-apps" class="app-grid"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    © 2026 openglix. Apps are free and offline-first.
+  </footer>
+
+  <script src="js/qrcode.min.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
