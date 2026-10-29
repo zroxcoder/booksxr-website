@@ -1,0 +1,26 @@
+{
+  "updated": "",
+  "overall": "auto",
+  "services": {
+    "site": {
+      "label": "Website",
+      "status": "operational",
+      "note": ""
+    },
+    "downloads": {
+      "label": "APK Downloads",
+      "status": "operational",
+      "note": ""
+    },
+    "qr": {
+      "label": "QR Code Generator",
+      "status": "operational",
+      "note": ""
+    },
+    "blog": {
+      "label": "Blog & Updates",
+      "status": "operational",
+      "note": ""
+    }
+  }
+}
