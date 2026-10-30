@@ -4,8 +4,8 @@
   "services": {
     "site": {
       "label": "Website",
-      "status": "maintenance",
-      "note": "Updating website"
+      "status": "operational",
+      "note": ""
     },
     "downloads": {
       "label": "APK Downloads",

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>APK Downloads — openglix</title>
-  <meta name="description" content="Download all openglix APKs, with QR codes for easy phone installs.">
+  <meta name="description" content="Download all openglix apps — direct APK files with QR codes, changelogs, and release notes.">
   <link rel="stylesheet" href="css/style.css">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="icon" type="image/png" sizes="64x64" href="favicon.png">
@@ -82,15 +82,227 @@
   </div>
 </header>
 <main class="wrapper">
+
   <div class="panel">
     <h2>APK Downloads</h2>
-    <p>Scan the QR code with your phone or use the download button. Each card is generated from <code>data/apps.json</code>.</p>
-    <div id="downloads-apps" class="app-grid"></div>
+    <p>Scan the QR code with your phone, or download directly. Every app is shipped straight from openglix — no Play Store account needed.</p>
+    <p style="font-size:12px; color:#777; margin-bottom:0;">New to sideloading? See the <a href="faq.html" class="text-link">FAQ &amp; Help</a> page for the 4-step install guide.</p>
   </div>
+
+  <div class="downloads-stats" id="downloads-stats"></div>
+
+  <div class="panel">
+    <div class="downloads-toolbar">
+      <input id="dl-search" type="search" class="form-input" placeholder="Search apps…" aria-label="Search apps">
+      <select id="dl-sort" class="form-input">
+        <option value="newest">Newest first</option>
+        <option value="name">Name A → Z</option>
+        <option value="size">Largest first</option>
+        <option value="version">Latest version</option>
+      </select>
+    </div>
+
+    <div id="dl-filters" class="downloads-filter"></div>
+
+    <div id="downloads-apps" class="app-grid">
+      <p class="loading">Loading apps…</p>
+    </div>
+    <div id="downloads-empty" class="faq-empty">
+      No apps match your search. Try different words or clear the filter.
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Quick install reminder</h2>
+    <ol class="steps">
+      <li>Tap <strong>Download APK</strong> on the card. The file saves to your Downloads folder.</li>
+      <li>Open the file from your notification bar or Files app.</li>
+      <li>Allow <em>Install from unknown sources</em> for your browser (one-time).</li>
+      <li>Tap <strong>Install</strong>, then <strong>Open</strong>. If Play Protect warns you, tap <strong>Install anyway</strong>.</li>
+    </ol>
+  </div>
+
 </main>
 <footer class="site-footer">
-  © 2026 openglix. Apps are free and offline-first.
+  © 2026 openglix.
 </footer>
+
+<script>
+(function () {
+  var state = { apps: [], filter: 'All', sort: 'newest', q: '' };
+
+  function esc(v) {
+    return String(v == null ? '' : v).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  function absoluteUrl(p) {
+    try { return new URL(p, location.href).href; } catch (_) { return p; }
+  }
+
+  function parseSizeBytes(s) {
+    if (!s) return 0;
+    var m = String(s).trim().match(/^([\d.]+)\s*(MB|GB|KB)/i);
+    if (!m) return 0;
+    var n = parseFloat(m[1]);
+    var u = m[2].toUpperCase();
+    if (u === 'GB') n *= 1024;
+    if (u === 'KB') n /= 1024;
+    return n;
+  }
+
+  function renderStats(apps) {
+    var box = document.getElementById('downloads-stats');
+    if (!box) return;
+    if (!apps.length) { box.innerHTML = ''; return; }
+    var latest = apps.slice().sort(function (a, b) { return new Date(b.date) - new Date(a.date); })[0];
+    var platforms = {};
+    apps.forEach(function (a) { platforms[a.platform || 'Android'] = 1; });
+    box.innerHTML =
+      '<div class="downloads-stat"><div class="v">' + apps.length + '</div><div class="l">Apps</div></div>' +
+      '<div class="downloads-stat"><div class="v">' + Object.keys(platforms).join(', ') + '</div><div class="l">Platform</div></div>' +
+      '<div class="downloads-stat"><div class="v">' + esc(latest.name) + '</div><div class="l">Latest</div></div>' +
+      '<div class="downloads-stat"><div class="v">' + esc(latest.date) + '</div><div class="l">Latest date</div></div>';
+  }
+
+  function categories(apps) {
+    var set = { 'All': 1 };
+    apps.forEach(function (a) { if (a.category) set[a.category] = 1; });
+    return Object.keys(set);
+  }
+
+  function renderFilters() {
+    var box = document.getElementById('dl-filters');
+    if (!box) return;
+    var cats = categories(state.apps);
+    box.innerHTML = cats.map(function (c) {
+      return '<button type="button" class="faq-cat ' + (c === state.filter ? 'active' : '') + '" data-cat="' + esc(c) + '">' + esc(c) + '</button>';
+    }).join('');
+    box.querySelectorAll('.faq-cat').forEach(function (b) {
+      b.addEventListener('click', function () {
+        state.filter = b.dataset.cat;
+        renderFilters();
+        renderList();
+      });
+    });
+  }
+
+  function sorted(list) {
+    var c = list.slice();
+    if (state.sort === 'name') c.sort(function (a, b) { return a.name.localeCompare(b.name); });
+    else if (state.sort === 'size') c.sort(function (a, b) { return parseSizeBytes(b.size) - parseSizeBytes(a.size); });
+    else if (state.sort === 'version') c.sort(function (a, b) { return String(b.version).localeCompare(String(a.version), undefined, { numeric: true }); });
+    else c.sort(function (a, b) { return new Date(b.date) - new Date(a.date); });
+    return c;
+  }
+
+  function filtered() {
+    var q = state.q.toLowerCase().trim();
+    return state.apps.filter(function (a) {
+      if (state.filter !== 'All' && a.category !== state.filter) return false;
+      if (!q) return true;
+      return (a.name + ' ' + a.description + ' ' + (a.category || '')).toLowerCase().indexOf(q) !== -1;
+    });
+  }
+
+  function renderList() {
+    var box = document.getElementById('downloads-apps');
+    var empty = document.getElementById('downloads-empty');
+    if (!box) return;
+    var list = sorted(filtered());
+    if (!list.length) {
+      box.innerHTML = '';
+      if (empty) empty.classList.add('show');
+      return;
+    }
+    if (empty) empty.classList.remove('show');
+
+    box.innerHTML = list.map(function (a) {
+      var tags = [];
+      if (a.featured) tags.push('<span class="app-tag app-tag-featured">Featured</span>');
+      if (a.category) tags.push('<span class="app-tag">' + esc(a.category) + '</span>');
+      if (a.platform) tags.push('<span class="app-tag app-tag-platform">' + esc(a.platform) + '</span>');
+      if (a.minAndroid) tags.push('<span class="app-tag app-tag-min">Android ' + esc(a.minAndroid) + '+</span>');
+
+      var url = absoluteUrl(a.apkFile);
+      var pretty = a.apkFile;
+
+      return '<article class="app-card" data-id="' + esc(a.id) + '">' +
+        '<div class="qr-box" data-app-id="' + esc(a.id) + '"></div>' +
+        '<div class="app-url">' + esc(pretty) + '</div>' +
+        '<h3>' + esc(a.name) + ' <span class="version-badge">v' + esc(a.version) + '</span></h3>' +
+        '<div class="app-tags">' + tags.join('') + '</div>' +
+        '<p>' + esc(a.description) + '</p>' +
+        '<div class="app-meta"><span>' + esc(a.size) + '</span><span>' + esc(a.date) + '</span></div>' +
+        '<div class="app-actions">' +
+          '<a class="btn-download" href="' + esc(a.apkFile) + '" download>Download APK</a>' +
+          '<button type="button" class="btn-secondary" data-copy="' + esc(url) + '">Copy link</button>' +
+        '</div>' +
+        '<details><summary>Changelog</summary><ul>' +
+          (a.changelog || []).map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') +
+        '</ul></details>' +
+      '</article>';
+    }).join('');
+
+    // QR codes
+    box.querySelectorAll('.qr-box').forEach(function (el) {
+      var a = state.apps.find(function (x) { return x.id === el.dataset.appId; });
+      if (!a) return;
+      if (typeof QRCode !== 'undefined') {
+        new QRCode(el, {
+          text: absoluteUrl(a.apkFile),
+          width: 120, height: 120,
+          colorDark: '#1A1C1A', colorLight: '#FFFFFF',
+          correctLevel: QRCode.CorrectLevel.M
+        });
+      } else {
+        el.innerHTML = '<span class="qr-fallback">QR unavailable</span>';
+      }
+    });
+
+    // Copy buttons
+    box.querySelectorAll('[data-copy]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var text = btn.dataset.copy;
+        function done() {
+          var prev = btn.textContent;
+          btn.textContent = 'Copied!';
+          setTimeout(function () { btn.textContent = prev; }, 1500);
+        }
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(done).catch(function () { window.prompt('Copy link:', text); });
+        } else {
+          window.prompt('Copy link:', text);
+        }
+      });
+    });
+  }
+
+  fetch('data/apps.json', { cache: 'no-store' })
+    .then(function (r) { return r.json(); })
+    .then(function (d) {
+      state.apps = (d && Array.isArray(d.apps)) ? d.apps : [];
+      renderStats(state.apps);
+      renderFilters();
+      renderList();
+
+      document.getElementById('dl-search').addEventListener('input', function (e) {
+        state.q = e.target.value || '';
+        renderList();
+      });
+      document.getElementById('dl-sort').addEventListener('change', function (e) {
+        state.sort = e.target.value;
+        renderList();
+      });
+    })
+    .catch(function (err) {
+      console.error(err);
+      var box = document.getElementById('downloads-apps');
+      if (box) box.innerHTML = '<div class="data-error">Could not load apps.json. Serve this site via a local server: <code>python -m http.server 8080</code>.</div>';
+    });
+})();
+</script>
 <script src="js/qrcode.min.js"></script>
 <script src="js/app.js"></script>
 </body>

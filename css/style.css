@@ -1334,3 +1334,129 @@ select.form-input { cursor: pointer; }
   font-size: 12px !important;
   padding: 8px 16px !important;
 }
+/* === Downloads page enhancements === */
+.downloads-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.downloads-stat {
+  background: rgba(255,255,255,0.72);
+  border: 1px solid rgba(0,0,0,0.06);
+  border-radius: 10px;
+  padding: 14px 16px;
+  text-align: center;
+}
+.downloads-stat .v {
+  font-family: Georgia, serif;
+  font-size: 18px;
+  color: var(--green-dark);
+  line-height: 1.2;
+}
+.downloads-stat .l {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: #777;
+  margin-top: 4px;
+  font-weight: 600;
+}
+
+.downloads-toolbar {
+  display: grid;
+  grid-template-columns: 1fr 220px;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.downloads-toolbar .form-input {
+  padding: 10px 12px;
+  border: 1px solid rgba(0,0,0,0.12);
+  border-radius: 8px;
+  font-size: 13px;
+  background: rgba(255,255,255,0.9);
+}
+.downloads-toolbar .form-input:focus {
+  outline: none;
+  border-color: rgba(76,175,80,0.5);
+  box-shadow: 0 0 0 3px rgba(76,175,80,0.12);
+}
+.downloads-filter {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.app-url {
+  font-family: Consolas, "Courier New", monospace;
+  font-size: 10px;
+  color: #888;
+  margin: -4px 0 10px;
+  word-break: break-all;
+}
+.app-tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 6px 0 10px;
+}
+.app-tag {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: #f0f0f0;
+  color: #555;
+  border: 1px solid #e0e0e0;
+}
+.app-tag-featured {
+  background: #fff8e1;
+  color: #a06300;
+  border-color: #ffe0a3;
+}
+.app-tag-platform {
+  background: #e8f5e9;
+  color: #2e7d32;
+  border-color: #b7dfb9;
+}
+.app-tag-min {
+  background: #e3f2fd;
+  color: #1565c0;
+  border-color: #b3d4f5;
+}
+.app-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+.app-actions .btn-download {
+  font-size: 13px;
+  padding: 10px 18px;
+}
+.app-actions .btn-secondary {
+  padding: 10px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(0,0,0,0.12);
+  background: rgba(255,255,255,0.9);
+  color: #333;
+  font-weight: bold;
+  font-size: 13px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+.app-actions .btn-secondary:hover {
+  background: #f4fbf4;
+  border-color: rgba(76,175,80,0.4);
+  color: var(--green-dark);
+}
+@media (max-width: 620px) {
+  .downloads-toolbar { grid-template-columns: 1fr; }
+}

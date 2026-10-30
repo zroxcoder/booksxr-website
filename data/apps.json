@@ -15,13 +15,17 @@
         "PDF export with category breakdown",
         "Fixed '?' showing instead of minus sign",
         "Bigger auto-shrinking balance display"
-      ]
+      ],
+      "category": "Finance",
+      "platform": "Android",
+      "minAndroid": "8.0",
+      "featured": true
     },
     {
       "id": "booksxrs",
       "name": "booksXRS",
-      "version": "1.0.0",
-      "apkFile": "apk/booksXRS-v1.0.0.apk",
+      "version": "1.0.4",
+      "apkFile": "apk/booksXRS-v1.0.4.apk",
       "size": "13.3 MB",
       "date": "2026-10-29",
       "description": "New openglix app build. Update this description in data/apps.json with the final app details.",
@@ -29,7 +33,11 @@
         "Initial release",
         "Offline-first finance workflow",
         "Direct APK download from openglix"
-      ]
+      ],
+      "category": "Finance",
+      "platform": "Android",
+      "minAndroid": "8.0",
+      "featured": false
     }
   ]
 }
