@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Report a Problem — openglix</title>
-  <meta name="description" content="Report a bug or problem in an openglix app.">
+  <meta name="description" content="Report a bug, crash, or feature request for openglix apps. Live email preview, auto-ticket ID, plain-text and formatted email options.">
   <link rel="stylesheet" href="css/style.css">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="icon" type="image/png" sizes="64x64" href="favicon.png">
@@ -82,24 +82,566 @@
   </div>
 </header>
 <main class="wrapper">
+
   <div class="panel">
     <h2>Report a Problem</h2>
-    <p>Found a bug? Send an email with these details:</p>
+    <p>Found a bug, crash, or something that doesn’t work as expected? Fill the form on the left — the report preview on the right updates live. You’ll get a report ID and a clean, formatted email.</p>
+    <p style="font-size:12px; color:#777; margin-bottom:0;">Not sure if it’s known? Check the <a href="faq.html" class="text-link">FAQ</a> first — many common issues are already answered.</p>
+  </div>
+
+  <div class="report-layout">
+
+    <div class="panel report-form-panel">
+      <form id="report-form" class="report-form" novalidate>
+
+        <div class="form-row">
+          <label class="form-label">Issue type</label>
+          <div class="radio-group">
+            <label class="radio"><input type="radio" name="type" value="Bug / crash" checked> Bug / crash</label>
+            <label class="radio"><input type="radio" name="type" value="Feature request"> Feature request</label>
+            <label class="radio"><input type="radio" name="type" value="Security"> Security</label>
+            <label class="radio"><input type="radio" name="type" value="Other"> Other</label>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label class="form-label">Priority</label>
+          <div class="radio-group">
+            <label class="radio"><input type="radio" name="priority" value="Low"> Low</label>
+            <label class="radio"><input type="radio" name="priority" value="Normal" checked> Normal</label>
+            <label class="radio"><input type="radio" name="priority" value="High"> High</label>
+            <label class="radio"><input type="radio" name="priority" value="Urgent"> Urgent</label>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label class="form-label" for="r-app">App</label>
+          <select id="r-app" name="app" class="form-input">
+            <option value="">Loading apps…</option>
+          </select>
+        </div>
+
+        <div class="form-row form-row-2">
+          <div>
+            <label class="form-label" for="r-version">App version</label>
+            <input id="r-version" name="version" class="form-input" placeholder="e.g. 1.1.1">
+          </div>
+          <div>
+            <label class="form-label" for="r-device">Device model</label>
+            <input id="r-device" name="device" class="form-input" placeholder="e.g. Redmi Note 12">
+          </div>
+        </div>
+
+        <div class="form-row form-row-2">
+          <div>
+            <label class="form-label" for="r-os">OS / Android version</label>
+            <input id="r-os" name="os" class="form-input" placeholder="e.g. Android 13">
+          </div>
+          <div>
+            <label class="form-label" for="r-language">App language</label>
+            <input id="r-language" name="language" class="form-input" placeholder="e.g. English / Nepali">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label class="form-label" for="r-steps">What were you trying to do? <span class="req">*</span></label>
+          <textarea id="r-steps" name="steps" class="form-input" rows="3" placeholder="Step-by-step description of what you did before the issue appeared." required></textarea>
+        </div>
+
+        <div class="form-row">
+          <label class="form-label" for="r-expected">What did you expect to happen?</label>
+          <textarea id="r-expected" name="expected" class="form-input" rows="2" placeholder="What the app should have done."></textarea>
+        </div>
+
+        <div class="form-row">
+          <label class="form-label" for="r-actual">What actually happened? <span class="req">*</span></label>
+          <textarea id="r-actual" name="actual" class="form-input" rows="3" placeholder="Error message, crash, wrong result, or unexpected behavior." required></textarea>
+        </div>
+
+        <div class="form-row">
+          <label class="form-label" for="r-extra">Additional notes</label>
+          <textarea id="r-extra" name="extra" class="form-input" rows="2" placeholder="Anything else that might help."></textarea>
+        </div>
+
+        <div class="form-row">
+          <label class="checkbox">
+            <input type="checkbox" id="r-include" name="include" checked>
+            Include app, device and OS info in the report
+          </label>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn-download">Send by email</button>
+          <button type="button" id="report-copy" class="btn-secondary">Copy report</button>
+        </div>
+
+        <div id="report-status" class="form-status" role="status" aria-live="polite"></div>
+
+        <p class="form-note">Nothing is sent from this page. “Send by email” opens your default email app with the report prefilled — you review and send it yourself.</p>
+      </form>
+    </div>
+
+    <div class="panel report-preview-panel">
+      <div class="panel-header">
+        <h2>Email preview</h2>
+        <small>Updates live</small>
+      </div>
+      <div class="email-preview-meta" id="email-preview-meta">
+        <div><strong>To:</strong> <span id="preview-to">report@openglix.site</span></div>
+        <div><strong>Subject:</strong> <span id="preview-subject">—</span></div>
+        <div><strong>ID:</strong> <span id="preview-id" class="mono">—</span></div>
+      </div>
+      <div class="email-preview-render" id="email-preview-render"></div>
+      <p class="email-preview-hint">This is exactly what will appear in your email app.</p>
+    </div>
+
+  </div>
+
+  <div class="panel">
+    <h2>Privacy note</h2>
     <ul class="status-list">
-      <li>Phone model</li>
-      <li>Android version</li>
-      <li>App name and version</li>
-      <li>What you were trying to do</li>
-      <li>What went wrong</li>
+      <li>Reports are used only to investigate and fix the issue.</li>
+      <li>Please don’t include sensitive financial data, PINs, or personal entries. Redact anything private first.</li>
+      <li>If a report contains accidental personal data, we delete it once the issue is resolved.</li>
     </ul>
-    <p style="margin-top:18px;">
-      <a class="btn-download" href="mailto:hello@openglix.com?subject=openglix%20Bug%20Report">Email Bug Report</a>
+  </div>
+
+  <div class="panel">
+    <h2>What to expect</h2>
+    <ul class="status-list">
+      <li><strong>Bugs</strong> — acknowledged within a day. Fixes depend on severity and reach.</li>
+      <li><strong>Feature requests</strong> — reviewed periodically. Requests that benefit more users get prioritized.</li>
+      <li><strong>Security</strong> — prioritized. The subject is prefixed so it stands out.</li>
+    </ul>
+  </div>
+
+  <div class="panel">
+    <p style="font-size:12px; color:#888; margin:0;">
+      Not a bug? Use the <a href="contact.html" class="text-link">contact page</a> for questions, or browse the <a href="faq.html" class="text-link">FAQ</a> for common answers.
     </p>
   </div>
+
 </main>
 <footer class="site-footer">
-  © 2026 openglix. Apps are free and offline-first.
+  © 2026 openglix.
 </footer>
+
+<script>
+(function () {
+  var SUPPORT_EMAIL = 'report@openglix.site';
+  var FORM_URL = 'https://openglix.site/report.html';
+
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  function newReportId() {
+    var d = new Date();
+    var ymd = d.getFullYear()
+      + String(d.getMonth() + 1).padStart(2, '0')
+      + String(d.getDate()).padStart(2, '0');
+    var rand = Math.random().toString(16).slice(2, 7).toUpperCase();
+    return 'OGX-' + ymd + '-' + rand;
+  }
+
+  function formatDate(d) {
+    return d.toLocaleString(undefined, {
+      year: 'numeric', month: 'long', day: 'numeric',
+      hour: 'numeric', minute: '2-digit'
+    });
+  }
+
+  function typeColors(type) {
+    switch (type) {
+      case 'Bug / crash':      return { bg: '#ffebee', fg: '#c62828', bd: '#ffcdd2' };
+      case 'Feature request':  return { bg: '#e3f2fd', fg: '#1565c0', bd: '#bbdefb' };
+      case 'Security':         return { bg: '#fff3e0', fg: '#e65100', bd: '#ffe0b2' };
+      default:                 return { bg: '#f5f5f5', fg: '#616161', bd: '#e0e0e0' };
+    }
+  }
+  function prioColors(p) {
+    switch (p) {
+      case 'Low':    return { bg: '#e8f5e9', fg: '#2e7d32', bd: '#c8e6c9' };
+      case 'High':   return { bg: '#fff3e0', fg: '#e65100', bd: '#ffe0b2' };
+      case 'Urgent': return { bg: '#ffebee', fg: '#c62828', bd: '#ffcdd2' };
+      default:       return { bg: '#e3f2fd', fg: '#1565c0', bd: '#bbdefb' };
+    }
+  }
+
+  function pill(text, c) {
+    return '<span style="display:inline-block;padding:3px 9px;border-radius:4px;'
+      + 'font-size:11px;font-weight:700;letter-spacing:0.4px;'
+      + 'background:' + c.bg + ';color:' + c.fg + ';border:1px solid ' + c.bd + ';">'
+      + esc(text).toUpperCase() + '</span>';
+  }
+
+  function buildHtml(data) {
+    var tc = typeColors(data.type);
+    var pc = prioColors(data.priority);
+
+    function section(title, content) {
+      if (!content) return '';
+      return '<h3 style="font-family:Georgia,\'Times New Roman\',serif;color:#a63f0a;font-weight:normal;'
+        + 'font-size:15px;margin:20px 0 8px;padding-bottom:6px;border-bottom:1px solid #eee;">'
+        + esc(title) + '</h3>'
+        + '<p style="font-size:13px;color:#333;line-height:1.7;margin:0 0 10px;white-space:pre-wrap;">'
+        + esc(content) + '</p>';
+    }
+
+    function metaRow(label, val) {
+      if (!val) return '';
+      return '<tr>'
+        + '<td style="padding:4px 0;color:#888;font-size:12px;width:90px;vertical-align:top;">' + esc(label) + '</td>'
+        + '<td style="padding:4px 0;color:#333;font-size:13px;">' + esc(val) + '</td>'
+        + '</tr>';
+    }
+
+    var appVal = data.app && data.app !== 'Other'
+      ? data.app + (data.version ? ' v' + data.version : '')
+      : (data.app || '');
+
+    var hasMeta = data.includeMeta && (data.device || data.os || data.language);
+    var hasApp = appVal || hasMeta;
+
+    return '<div style="font-family:Arial,Helvetica,sans-serif;max-width:640px;margin:0 auto;'
+      + 'background:#ffffff;border:1px solid #e0e0e0;border-radius:10px;overflow:hidden;'
+      + 'box-shadow:0 2px 8px rgba(0,0,0,0.06);">'
+
+      // Header
+      + '<div style="background:#2e7d32;background:linear-gradient(135deg,#2e7d32 0%,#1b5e20 100%);'
+      + 'color:#ffffff;padding:22px 26px;">'
+      + '<table width="100%" cellpadding="0" cellspacing="0" border="0"><tr>'
+      + '<td valign="middle">'
+        + '<div style="font-family:Georgia,\'Times New Roman\',serif;font-size:24px;font-weight:normal;'
+        + 'letter-spacing:-0.5px;color:#ffffff;">openglix</div>'
+        + '<div style="font-size:10px;text-transform:uppercase;letter-spacing:1.2px;margin-top:4px;'
+        + 'color:#c8e6c9;">Report Submission</div>'
+      + '</td>'
+      + '<td valign="middle" align="right">' + pill(data.type, tc) + '</td>'
+      + '</tr></table>'
+      + '</div>'
+
+      // Ticket strip
+      + '<div style="background:#f8fcf8;border-bottom:1px solid #e0e0e0;padding:14px 26px;">'
+      + '<table width="100%" cellpadding="0" cellspacing="0" border="0">'
+        + '<tr>'
+          + '<td style="color:#888;font-size:12px;width:90px;">Report ID</td>'
+          + '<td style="font-family:Consolas,\'Courier New\',monospace;font-weight:bold;'
+          + 'color:#1b5e20;font-size:13px;">' + esc(data.id) + '</td>'
+        + '</tr>'
+        + '<tr>'
+          + '<td style="color:#888;font-size:12px;padding-top:4px;">Submitted</td>'
+          + '<td style="color:#333;font-size:13px;padding-top:4px;">' + esc(data.date) + '</td>'
+        + '</tr>'
+        + '<tr>'
+          + '<td style="color:#888;font-size:12px;padding-top:4px;">Priority</td>'
+          + '<td style="padding-top:4px;">' + pill(data.priority, pc) + '</td>'
+        + '</tr>'
+      + '</table>'
+      + '</div>'
+
+      // Body
+      + '<div style="padding:18px 26px 22px;">'
+      + (hasApp
+        ? '<h3 style="font-family:Georgia,\'Times New Roman\',serif;color:#a63f0a;font-weight:normal;'
+          + 'font-size:15px;margin:4px 0 8px;padding-bottom:6px;border-bottom:1px solid #eee;">App &amp; Device</h3>'
+          + '<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:6px;">'
+          + metaRow('App', appVal)
+          + (data.includeMeta ? metaRow('Device', data.device) : '')
+          + (data.includeMeta ? metaRow('OS', data.os) : '')
+          + (data.includeMeta ? metaRow('Language', data.language) : '')
+          + '</table>'
+        : '')
+      + section('What was I trying to do?', data.steps)
+      + section('What did I expect?', data.expected)
+      + section('What actually happened?', data.actual)
+      + section('Additional notes', data.extra)
+      + '</div>'
+
+      // Footer
+      + '<div style="background:#f8fcf8;border-top:1px solid #e0e0e0;padding:14px 26px;'
+      + 'font-size:11px;color:#888;text-align:center;line-height:1.6;">'
+      + 'Sent via the openglix report form<br>'
+      + '<a href="' + FORM_URL + '" style="color:#2e7d32;text-decoration:none;font-weight:600;">'
+      + 'openglix.site/report.html</a>'
+      + '</div>'
+
+      + '</div>';
+  }
+
+  function buildPlainText(data) {
+    var top = '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━';
+    var mid = '───────────────────────────────────────────────────────────────';
+    var L = [];
+
+    L.push(top);
+    L.push('  OPENGLIX · ' + data.type.toUpperCase() + ' REPORT');
+    L.push('  Report ID: ' + data.id);
+    L.push(top);
+    L.push('');
+    L.push('  Submitted:  ' + data.date);
+    L.push('  Priority:   ' + data.priority);
+    L.push('');
+
+    function block(title, content) {
+      if (!content) return;
+      L.push(mid);
+      L.push('  ' + title);
+      L.push(mid);
+      L.push('');
+      String(content).split('\n').forEach(function (line) { L.push('  ' + line); });
+      L.push('');
+    }
+
+    var appVal = data.app && data.app !== 'Other'
+      ? data.app + (data.version ? ' v' + data.version : '')
+      : (data.app || '');
+    var hasMeta = data.includeMeta && (data.device || data.os || data.language);
+
+    if (appVal || hasMeta) {
+      L.push(mid);
+      L.push('  APP & DEVICE');
+      L.push(mid);
+      L.push('');
+      if (appVal) L.push('  App:        ' + appVal);
+      if (data.includeMeta && data.device)   L.push('  Device:     ' + data.device);
+      if (data.includeMeta && data.os)       L.push('  OS:         ' + data.os);
+      if (data.includeMeta && data.language) L.push('  Language:   ' + data.language);
+      L.push('');
+    }
+
+    block('WHAT WAS I TRYING TO DO?', data.steps);
+    block('WHAT DID I EXPECT?', data.expected);
+    block('WHAT ACTUALLY HAPPENED?', data.actual);
+    block('ADDITIONAL NOTES', data.extra);
+
+    L.push(top);
+    L.push('  Sent via the openglix report form');
+    L.push('  ' + FORM_URL);
+    L.push(top);
+
+    return L.join('\n');
+  }
+
+  // Short, ASCII-only body for mailto (avoids URL-length issues and weird chars)
+  function buildMailtoText(data) {
+    var L = [];
+    var typeLabel = data.type === 'Bug / crash' ? 'BUG REPORT'
+      : data.type === 'Feature request' ? 'FEATURE REQUEST'
+      : data.type === 'Security' ? 'SECURITY REPORT'
+      : 'REPORT';
+
+    L.push('OPENGLIX ' + typeLabel);
+    L.push('Report ID: ' + data.id);
+    L.push('------------------------------');
+    L.push('Submitted: ' + data.date);
+    L.push('Priority:  ' + data.priority);
+
+    var appVal = data.app && data.app !== 'Other'
+      ? data.app + (data.version ? ' v' + data.version : '')
+      : (data.app || '');
+    if (appVal) L.push('App:       ' + appVal);
+    if (data.includeMeta && data.device)   L.push('Device:    ' + data.device);
+    if (data.includeMeta && data.os)       L.push('OS:        ' + data.os);
+    if (data.includeMeta && data.language) L.push('Language:  ' + data.language);
+
+    function block(title, text) {
+      if (!text) return;
+      L.push('');
+      L.push(title);
+      L.push('------------------------------');
+      String(text).split('\n').forEach(function (line) { L.push(line); });
+    }
+
+    block('What I was trying to do:', data.steps);
+    block('What I expected:', data.expected);
+    block('What actually happened:', data.actual);
+    block('Additional notes:', data.extra);
+
+    L.push('');
+    L.push('--');
+    L.push('Sent via openglix.site/report.html');
+    return L.join('\n');
+  }
+
+  function buildSubject(data) {
+    var base = data.type === 'Bug / crash' ? 'Bug Report'
+      : data.type === 'Feature request' ? 'Feature Request'
+      : data.type === 'Security' ? 'SECURITY Report'
+      : 'Report';
+    return '[' + 'openglix' + '] ' + base + ' — ' + data.id
+      + (data.priority !== 'Normal' ? ' [' + data.priority + ']' : '');
+  }
+
+  function collect() {
+    var form = document.getElementById('report-form');
+    function val(id) { var el = document.getElementById(id); return el ? el.value.trim() : ''; }
+    function radio(name) {
+      var el = form.querySelector('input[name="' + name + '"]:checked');
+      return el ? el.value : '';
+    }
+    return {
+      id: window.__reportId || '',
+      date: window.__reportDate || formatDate(new Date()),
+      type: radio('type') || 'Bug / crash',
+      priority: radio('priority') || 'Normal',
+      app: val('r-app'),
+      version: val('r-version'),
+      device: val('r-device'),
+      os: val('r-os'),
+      language: val('r-language'),
+      steps: val('r-steps'),
+      expected: val('r-expected'),
+      actual: val('r-actual'),
+      extra: val('r-extra'),
+      includeMeta: document.getElementById('r-include').checked
+    };
+  }
+
+  function renderPreview() {
+    var data = collect();
+    var html = buildHtml(data);
+
+    var render = document.getElementById('email-preview-render');
+    if (render) render.innerHTML = html;
+
+    var sEl = document.getElementById('preview-subject');
+    if (sEl) sEl.textContent = buildSubject(data);
+
+    var idEl = document.getElementById('preview-id');
+    if (idEl) idEl.textContent = data.id || '—';
+
+    var toEl = document.getElementById('preview-to');
+    if (toEl) toEl.textContent = SUPPORT_EMAIL;
+  }
+
+  function setStatus(msg, kind) {
+    var box = document.getElementById('report-status');
+    if (!box) return;
+    box.textContent = msg;
+    box.className = 'form-status show ' + (kind || 'ok');
+    clearTimeout(setStatus._t);
+    setStatus._t = setTimeout(function () {
+      box.className = 'form-status';
+      box.textContent = '';
+    }, 6000);
+  }
+
+  // Bootstrap
+  window.__reportId = newReportId();
+  window.__reportDate = formatDate(new Date());
+
+  var form = document.getElementById('report-form');
+  var appSelect = document.getElementById('r-app');
+
+  fetch('data/apps.json', { cache: 'no-store' })
+    .then(function (r) { return r.json(); })
+    .then(function (d) {
+      var apps = (d && Array.isArray(d.apps)) ? d.apps : [];
+      var opts = apps.map(function (a) {
+        return '<option value="' + a.name + '">' + a.name + ' v' + a.version + '</option>';
+      }).join('');
+      appSelect.innerHTML = opts + '<option value="Other">Other / not sure</option>';
+      renderPreview();
+    })
+    .catch(function () {
+      appSelect.innerHTML = '<option value="Other">Other / not sure</option>';
+      renderPreview();
+    });
+
+  // Live preview
+  ['input', 'change', 'keyup'].forEach(function (evt) {
+    form.addEventListener(evt, renderPreview);
+  });
+
+  // Initial render (before apps load, so preview isn't empty)
+  renderPreview();
+
+  // Submit
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var data = collect();
+
+    if (!data.steps) {
+      setStatus('Please fill in “What were you trying to do?” before sending.', 'err');
+      document.getElementById('r-steps').focus();
+      return;
+    }
+    if (!data.actual) {
+      setStatus('Please fill in “What actually happened?” before sending.', 'err');
+      document.getElementById('r-actual').focus();
+      return;
+    }
+
+    var body = buildMailtoText(data);
+    var mailto = 'mailto:' + SUPPORT_EMAIL
+      + '?subject=' + encodeURIComponent(buildSubject(data))
+      + '&body=' + encodeURIComponent(body);
+
+    setStatus('Opening your email app with the report prefilled…', 'ok');
+    // Use anchor click - most reliable way to launch mail clients across browsers
+    try {
+      var a = document.createElement('a');
+      a.href = mailto;
+      a.style.display = 'none';
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(function () { try { a.remove(); } catch (_) {} }, 150);
+    } catch (_) {
+      // Last-ditch fallback if anchor click throws
+      try { window.location.href = mailto; } catch (_) {}
+    }
+
+    // Persistent fallback link below the buttons - always shown after first click
+    var fb = document.getElementById('mailto-fallback');
+    if (!fb) {
+      fb = document.createElement('div');
+      fb.id = 'mailto-fallback';
+      fb.className = 'mailto-fallback';
+      var frm = document.getElementById('report-form');
+      if (frm) frm.appendChild(fb);
+    }
+    var safeHref = esc(mailto);
+    fb.innerHTML = '<strong>Email app didn\'t open?</strong> '
+      + '<a href="' + safeHref + '" class="btn-secondary" style="font-size:12px;padding:8px 16px;display:inline-block;margin-top:6px;">Open email manually</a>'
+      + '<div style="font-size:11px;color:#888;margin-top:6px;">Or click <strong>Copy report</strong> above and paste into a new email to <strong>' + esc(SUPPORT_EMAIL) + '</strong>.</div>';
+  });
+
+  // Copy
+  document.getElementById('report-copy').addEventListener('click', function () {
+    var data = collect();
+    var html = buildHtml(data);
+    var plain = buildPlainText(data);
+    var subject = buildSubject(data);
+
+    function onCopied(kind) {
+      setStatus('Copied ' + kind + '. Paste into an email to ' + SUPPORT_EMAIL + '.', 'ok');
+    }
+    function fallback() {
+      var text = 'To: ' + SUPPORT_EMAIL + '\nSubject: ' + subject + '\n\n' + plain;
+      window.prompt('Copy this report text:', text);
+    }
+
+    if (navigator.clipboard && navigator.clipboard.write && typeof ClipboardItem !== 'undefined') {
+      var htmlBlob = new Blob([html], { type: 'text/html' });
+      var txtBlob = new Blob([plain], { type: 'text/plain' });
+      var item = new ClipboardItem({ 'text/html': htmlBlob, 'text/plain': txtBlob });
+      navigator.clipboard.write([item]).then(function () {
+        onCopied('formatted report');
+      }).catch(fallback);
+    } else if (navigator.clipboard && navigator.clipboard.writeText) {
+      var text = 'To: ' + SUPPORT_EMAIL + '\nSubject: ' + subject + '\n\n' + plain;
+      navigator.clipboard.writeText(text).then(function () {
+        onCopied('report text');
+      }).catch(fallback);
+    } else {
+      fallback();
+    }
+  });
+})();
+</script>
 <script src="js/qrcode.min.js"></script>
 <script src="js/app.js"></script>
 </body>
