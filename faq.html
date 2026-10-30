@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FAQ & Help — openglix</title>
-  <meta name="description" content="Answers to common questions and a list of published apps.">
+  <title>FAQ &amp; Help — openglix</title>
+  <meta name="description" content="Answers to common questions about installing openglix apps, using them offline, keeping your data private, and updating safely.">
   <link rel="stylesheet" href="css/style.css">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="icon" type="image/png" sizes="64x64" href="favicon.png">
@@ -82,22 +82,386 @@
   </div>
 </header>
 <main class="wrapper">
+
   <div class="panel">
     <h2>FAQ &amp; Help</h2>
-    <p><strong>Is it really free?</strong><br>Yes. openglix apps are free, with no ads, no subscriptions, and no in-app purchases.</p>
-    <p><strong>Does it need internet?</strong><br>No. The apps work offline. You only need internet to download the APK or optionally upload a backup.</p>
-    <p><strong>Where is my data stored?</strong><br>On your phone, in the app&rsquo;s private database. Data is not sent to openglix servers.</p>
-    <p><strong>How do I update?</strong><br>Download the new APK from this site and install it over the old version. Your existing app data is normally kept.</p>
+    <p>Everything you need to know about installing, using, and updating openglix apps — search below or pick a category.</p>
 
-    <div class="dotted-line"></div>
-    <h2>Published Apps &amp; Downloads</h2>
+    <div class="faq-search">
+      <input id="faq-search" type="search" placeholder="Search questions, e.g. install, backup, PIN…" aria-label="Search FAQ">
+    </div>
+
+    <div class="faq-cats" role="tablist">
+      <button class="faq-cat active" data-cat="all" type="button">All topics</button>
+      <button class="faq-cat" data-cat="getting-started" type="button">Getting started</button>
+      <button class="faq-cat" data-cat="install" type="button">Installation</button>
+      <button class="faq-cat" data-cat="usage" type="button">Using apps</button>
+      <button class="faq-cat" data-cat="data" type="button">Data &amp; privacy</button>
+      <button class="faq-cat" data-cat="updates" type="button">Updates &amp; backups</button>
+      <button class="faq-cat" data-cat="trouble" type="button">Troubleshooting</button>
+    </div>
+
+    <div class="faq-meta">
+      <span id="faq-count">31 questions</span>
+      <button id="faq-reset" type="button">Clear filters</button>
+    </div>
+
+    <div id="faq-list">
+
+      <details class="faq-item" data-cat="getting-started">
+        <summary>What is openglix?</summary>
+        <div class="faq-answer">
+          <p>openglix is a small independent project that builds practical, offline-first Android apps — the main one being booksXR, a business finance tracker. Apps are distributed as direct APK downloads, with no Play Store account required.</p>
+        </div>
+      </details>
+
+      <details class="faq-item" data-cat="getting-started">
+        <summary>Are the apps really free?</summary>
+        <div class="faq-answer">
+          <p>Yes. Every openglix app is free — no ads, no subscriptions, no in-app purchases, and no premium tiers. There are no hidden costs.</p>
+        </div>
+      </details>
+
+      <details class="faq-item" data-cat="getting-started">
+        <summary>Do I need an account to use the apps?</summary>
+        <div class="faq-answer">
+          <p>No. There is no sign-up, no login, and no account creation. Apps work as soon as they're installed, and all data stays on your device.</p>
+        </div>
+      </details>
+
+      <details class="faq-item" data-cat="getting-started">
+        <summary>What apps are currently available?</summary>
+        <div class="faq-answer">
+          <p>The current list is on the <a href="downloads.html">APK Downloads</a> page, and it's also shown at the bottom of this page. Each card shows the version, file size, release date, and a changelog.</p>
+        </div>
+      </details>
+
+      <details class="faq-item" data-cat="getting-started">
+        <summary>Which Android version do I need?</summary>
+        <div class="faq-answer">
+          <p>Android 8.0 (Oreo) or newer is recommended. Older versions may work but are not officially tested. All openglix apps are Android-only — there is no iOS version at this time.</p>
+        </div>
+      </details>
+
+      <details class="faq-item" data-cat="install">
+        <summary>How do I install an APK?</summary>
+        <div class="faq-answer">
+          <p>Four steps:</p>
+          <ol>
+            <li>Tap <strong>Download APK</strong> on the app card. The file saves to your Downloads folder.</li>
+            <li>Open the downloaded file from your notification bar or Files app.</li>
+            <li>If Android asks, allow <em>Install from unknown sources</em> for your browser.</li>
+            <li>Tap <strong>Install</strong>, then <strong>Open</strong>.</li>
+          </ol>
+        </div>
+      </details>
+
+      <details class="faq-item" data-cat="install">
+        <summary>What does "Install from unknown sources" mean?</summary>
+        <div class="faq-answer">
+          <p>Android blocks APK installs from outside the Play Store by default. To install an openglix app, you need to allow your browser (Chrome, Firefox, etc.) to install unknown apps. This is a one-time toggle in <code>Settings → Apps → Special app access → Install unknown apps</code>. Android remembers your choice.</p>
+        </div>
+      </details>
+
+      <details class="faq-item" data-cat="install">
+        <summary>Is it safe to install apps outside the Play Store?</summary>
+        <div class="faq-answer">
+          <p>It's safe as long as the source is trustworthy. Sideloading is a normal Android feature — millions of users install APKs directly. openglix APKs are built and published here, contain no trackers, and do not request internet permission unless a feature requires it.</p>
+          <p>General rule: only install APKs from sites you trust, avoid APKs from random file-sharing links, and check the developer's name.</p>
+        </div>
+      </details>
+
+      <details class="faq-item" data-cat="install">
+        <summary>Google Play Protect says the app is unsafe — is that real?</summary>
+        <div class="faq-answer">
+          <p>Play Protect warns about <em>any</em> app it hasn't scanned through the Play Store, even safe ones. This is normal for sideloaded APKs.</p>
+          <p>If you downloaded the APK from this site, tap <strong>Install anyway</strong> or <strong>More details → Install anyway</strong>. Do not proceed if the APK came from anywhere else.</p>
+        </div>
+      </details>
+
+      <details class="faq-item" data-cat="install">
+        <summary>Can I install openglix apps on iPhone or iPad?</summary>
+        <div class="faq-answer">
+          <p>No. openglix apps are Android APKs. iOS does not support APK installation, and there is no iOS version available.</p>
+        </div>
+      </details>
+
+      <details class="faq-item" data-cat="install">
+        <summary>The downloaded file won't open — what should I do?</summary>
+        <div class="faq-answer">
+          <p>Try these in order:</p>
+          <ul>
+            <li>Open the file from the Files app rather than a notification — the notification shortcut sometimes fails.</li>
+            <li>Check the file size against the listing — if it's very small, the download was incomplete. Delete and download again.</li>
+            <li>If your phone shows "Can't open file", install a file manager app like Material Files or Google Files first.</li>
+            <li>If it still fails, the APK may be incompatible with your Android version — check the compatibility notes above.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="faq-item" data-cat="usage">
+        <summary>Do the apps need internet?</summary>
+        <div class="faq-answer">
+          <p>No. The apps are 100% offline by design. Every feature — income and expense tracking, loans, reminders, PDF reports — works without internet. Internet is only needed to download the APK or optionally upload a backup to Google Drive.</p>
+        </div>
+      </details>
+
+      <details class="faq-item" data-cat="usage">
+        <summary>Is there a Nepali or multilingual version?</summary>
+        <div class="faq-answer">
+          <p>Yes. booksXR v1.1.1 added full English and Nepali (नेपाली) support. You can switch languages in the app settings. More languages will be added if there's demand — <a href="contact.html">contact us</a> if you need a specific one.</p>
+        </div>
+      </details>
+
+      <details class="faq-item" data-cat="usage">
+        <summary>How do I create an income or expense entry?</summary>
+        <div class="faq-answer">
+          <p>Open the app → tap the <strong>+</strong> button on the home screen → choose <strong>Income</strong> or <strong>Expense</strong> → enter the amount, category, date, and optional note → tap <strong>Save</strong>. Entries appear in your list and are reflected in your balance immediately.</p>
+        </div>
+      </details>
+
+      <details class="faq-item" data-cat="usage">
+        <summary>Can I export my data as PDF?</summary>
+        <div class="faq-answer">
+          <p>Yes. Go to <strong>Settings → Export</strong> and choose the date range. The app generates a PDF report with a category breakdown, totals, and the full list of entries. You can share it via any app on your phone.</p>
+        </div>
+      </details>
+
+      <details class="faq-item" data-cat="usage">
+        <summary>What if I forget my PIN?</summary>
+        <div class="faq-answer">
+          <p>If you have fingerprint unlock enabled, use it. Otherwise, there's no way to recover a PIN without losing access to encrypted data — this is by design to keep your data private.</p>
+          <p>Uninstalling the app and reinstalling will reset it, but <strong>also erases your data</strong>. Always keep a backup exported somewhere safe.</p>
+        </div>
+      </details>
+
+      <details class="faq-item" data-cat="data">
+        <summary>Where is my data stored?</summary>
+        <div class="faq-answer">
+          <p>On your phone, in the app's private database. It's not stored in the cloud, and it's only accessible from the app itself (and by you, on your own device).</p>
+        </div>
+      </details>
+
+      <details class="faq-item" data-cat="data">
+        <summary>Is my data sent to openglix servers?</summary>
+        <div class="faq-answer">
+          <p>No. openglix apps do not send your data anywhere. There is no analytics, no tracking, no telemetry. The only outbound network requests the app ever makes are to Google Drive (if you explicitly choose to back up there) — and even that is optional.</p>
+        </div>
+      </details>
+
+      <details class="faq-item" data-cat="data">
+        <summary>Can you see my financial data?</summary>
+        <div class="faq-answer">
+          <p>No. Data lives exclusively on your device. Even if you emailed us a bug report, we have no way to view your entries — we would need you to export and share the report yourself.</p>
+        </div>
+      </details>
+
+      <details class="faq-item" data-cat="data">
+        <summary>How do I protect my data with a PIN or fingerprint?</summary>
+        <div class="faq-answer">
+          <p>Open <strong>Settings → Security</strong> inside the app. You can set a numeric PIN, enable fingerprint unlock, and configure an auto-lock timer (for example, lock after 1 minute of inactivity). These features are included in booksXR v1.1.1 and later.</p>
+        </div>
+      </details>
+
+      <details class="faq-item" data-cat="data">
+        <summary>How do I delete all my data?</summary>
+        <div class="faq-answer">
+          <p>Two options:</p>
+          <ul>
+            <li><strong>In the app:</strong> <code>Settings → Advanced → Clear all data</code>. This wipes entries and settings but keeps the app installed.</li>
+            <li><strong>Uninstall the app:</strong> removing the app from your phone deletes the database permanently.</li>
+          </ul>
+          <p>Either way, the data is gone — back it up first if you might need it.</p>
+        </div>
+      </details>
+
+      <details class="faq-item" data-cat="updates">
+        <summary>How do I update to a new version?</summary>
+        <div class="faq-answer">
+          <p>Download the new APK from the <a href="downloads.html">Downloads page</a>, then tap it. Android installs the new version directly over the old one — no need to uninstall first. The update keeps your existing data intact.</p>
+        </div>
+      </details>
+
+      <details class="faq-item" data-cat="updates">
+        <summary>Will updating delete my data?</summary>
+        <div class="faq-answer">
+          <p>No. Installing a new APK over the same app (same package name) preserves all data — entries, settings, PIN, everything. Only an uninstall removes data.</p>
+        </div>
+      </details>
+
+      <details class="faq-item" data-cat="updates">
+        <summary>How do I back up my data?</summary>
+        <div class="faq-answer">
+          <p>Two options inside the app:</p>
+          <ul>
+            <li><strong>Export:</strong> <code>Settings → Export</code> creates a file (JSON or PDF) you can save to Google Drive or email to yourself.</li>
+            <li><strong>Encrypted backup:</strong> <code>Settings → Backup</code> creates a password-protected backup file. Store it in Drive or on your computer.</li>
+          </ul>
+          <p>Either way, back up before uninstalling or switching phones.</p>
+        </div>
+      </details>
+
+      <details class="faq-item" data-cat="updates">
+        <summary>Can I transfer my data to a new phone?</summary>
+        <div class="faq-answer">
+          <p>Yes. Export a backup from the old phone (<code>Settings → Backup</code>), copy it to Google Drive or a USB cable, then install the app on the new phone and use <code>Settings → Restore</code> to import it. The password (if you set one) will be required.</p>
+        </div>
+      </details>
+
+      <details class="faq-item" data-cat="updates">
+        <summary>How often are updates released?</summary>
+        <div class="faq-answer">
+          <p>Updates are released when there's something meaningful to ship — bug fixes, new features, or security improvements. There's no fixed schedule. Check the <a href="updates.html">Updates &amp; Blog</a> page or the <a href="status.html">Status</a> page for the latest version.</p>
+        </div>
+      </details>
+
+      <details class="faq-item" data-cat="trouble">
+        <summary>App won't install — what do I do?</summary>
+        <div class="faq-answer">
+          <p>Check in this order:</p>
+          <ul>
+            <li>Did you enable "Install from unknown sources" for your browser? (See <em>Installation</em> above.)</li>
+            <li>Is there enough free storage? Apps need ~50 MB free.</li>
+            <li>Is the file complete? Compare its size with the listing.</li>
+            <li>Is it compatible? Android 8.0+ is required.</li>
+            <li>Still stuck? <a href="report.html">Report the issue</a> with your phone model and the exact error message.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="faq-item" data-cat="trouble">
+        <summary>App opens then closes immediately</summary>
+        <div class="faq-answer">
+          <p>This is usually caused by a corrupt database or an interrupted update. Try:</p>
+          <ol>
+            <li>Force stop the app: <code>Settings → Apps → booksXR → Force stop</code>.</li>
+            <li>Clear cache (not data): <code>Settings → Apps → booksXR → Storage → Clear cache</code>.</li>
+            <li>If it still crashes, back up data from within the app if possible, then reinstall.</li>
+          </ol>
+          <p>If the problem persists, <a href="report.html">report it</a> — include your phone model and Android version.</p>
+        </div>
+      </details>
+
+      <details class="faq-item" data-cat="trouble">
+        <summary>Reminders aren't firing on time</summary>
+        <div class="faq-answer">
+          <p>On phones with aggressive battery optimization (Xiaomi, Realme, Oppo, Vivo, Samsung), reminders may be delayed or blocked. Try:</p>
+          <ul>
+            <li>Update to booksXR v1.1.1 or later — it fixed a common reminder-timing bug.</li>
+            <li>In phone settings, disable battery optimization for booksXR: <code>Settings → Battery → App launch → booksXR → Allow background activity</code>.</li>
+            <li>On Xiaomi/MIUI: enable <em>Autostart</em> and set battery saver to <em>No restrictions</em>.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="faq-item" data-cat="trouble">
+        <summary>The app shows a "?" instead of a minus sign</summary>
+        <div class="faq-answer">
+          <p>This was a font bug in booksXR v1.1.0. It's fixed in <strong>v1.1.1</strong> and later. <a href="downloads.html">Download the latest version</a> to resolve it.</p>
+        </div>
+      </details>
+
+      <details class="faq-item" data-cat="trouble">
+        <summary>Where can I report a bug?</summary>
+        <div class="faq-answer">
+          <p>Use the <a href="report.html">Report a Problem</a> page. Include:</p>
+          <ul>
+            <li>Phone model (e.g. Redmi Note 12)</li>
+            <li>Android version (e.g. Android 13)</li>
+            <li>App name and version</li>
+            <li>What you were trying to do, and what went wrong</li>
+          </ul>
+          <p>That's enough for us to investigate quickly.</p>
+        </div>
+      </details>
+
+    </div>
+
+    <div id="faq-empty" class="faq-empty">
+      No questions match your search. Try different words, browse another category, or <a href="contact.html">contact us</a> directly.
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="section-head">
+      <h2>Published Apps &amp; Downloads</h2>
+      <a href="downloads.html">All downloads &rarr;</a>
+    </div>
     <p>These are the APKs currently published by openglix.</p>
     <div id="faq-apps" class="app-grid"></div>
   </div>
+
+  <div class="panel">
+    <div class="faq-help-card">
+      <h3>Didn't find your answer?</h3>
+      <p>Send us a message or open a report — we'll get back to you as quickly as we can.</p>
+      <div class="faq-help-actions">
+        <a class="btn-download" href="contact.html">Contact us</a>
+        <a class="btn-secondary" href="report.html">Report a problem</a>
+      </div>
+    </div>
+  </div>
+
 </main>
 <footer class="site-footer">
-  © 2026 openglix. Apps are free and offline-first.
+  © 2026 openglix.
 </footer>
+
+<script>
+(function () {
+  var list = document.getElementById('faq-list');
+  if (!list) return;
+  var search = document.getElementById('faq-search');
+  var resetBtn = document.getElementById('faq-reset');
+  var cats = Array.prototype.slice.call(document.querySelectorAll('.faq-cat'));
+  var items = Array.prototype.slice.call(list.querySelectorAll('.faq-item'));
+  var empty = document.getElementById('faq-empty');
+  var count = document.getElementById('faq-count');
+  var activeCat = 'all';
+
+  function apply() {
+    var q = (search.value || '').toLowerCase().trim();
+    var shown = 0;
+    items.forEach(function (item) {
+      var inCat = activeCat === 'all' || item.dataset.cat === activeCat;
+      var text = item.textContent.toLowerCase();
+      var matches = !q || text.indexOf(q) !== -1;
+      var show = inCat && matches;
+      item.style.display = show ? '' : 'none';
+      if (show) {
+        shown++;
+        if (q) item.open = true;
+      }
+    });
+    if (empty) empty.classList.toggle('show', shown === 0);
+    if (count) count.textContent = shown + ' of ' + items.length + ' questions';
+  }
+
+  search.addEventListener('input', apply);
+
+  cats.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      cats.forEach(function (b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      activeCat = btn.dataset.cat;
+      apply();
+    });
+  });
+
+  if (resetBtn) {
+    resetBtn.addEventListener('click', function () {
+      search.value = '';
+      cats.forEach(function (b) { b.classList.remove('active'); });
+      document.querySelector('.faq-cat[data-cat="all"]').classList.add('active');
+      activeCat = 'all';
+      items.forEach(function (item) { item.open = false; });
+      apply();
+    });
+  }
+
+  apply();
+})();
+</script>
 <script src="js/qrcode.min.js"></script>
 <script src="js/app.js"></script>
 </body>
