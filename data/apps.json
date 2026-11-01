@@ -24,17 +24,17 @@
     {
       "id": "booksxrs",
       "name": "booksXRS",
-      "version": "1.0.4",
-      "apkFile": "apk/booksXRS-v1.0.4.apk",
+      "version": "1.0.5",
+      "apkFile": "apk/booksXRS-v1.0.5.apk",
       "size": "13.3 MB",
-      "date": "2026-10-29",
+      "date": "2026-11-01",
       "description": "New openglix app build. Update this description in data/apps.json with the final app details.",
       "changelog": [
         "Initial release",
         "Offline-first finance workflow",
         "Direct APK download from openglix"
       ],
-      "category": "Finance",
+      "category": "Tracker",
       "platform": "Android",
       "minAndroid": "8.0",
       "featured": false
