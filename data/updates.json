@@ -1,85 +1,34 @@
 {
   "posts": [
-    {
-      "id": "booksxrs-v1-0-0",
-      "type": "update",
-      "date": "2026-10-29",
-      "dateLabel": "October 29, 2026",
-      "title": "booksXRS v1.0.0 Released",
-      "excerpt": "A new openglix app build is now available for direct APK download, with QR scanning and release notes.",
-      "readTime": "2 min read",
-      "author": "openglix Team",
-      "tags": ["booksXRS", "Release", "Updates"],
-      "content": [
-        "booksXRS v1.0.0 is now listed on openglix. You can download it from the APK Downloads page or scan its QR code with your phone.",
-        "This is the first public build for booksXRS. The listing includes version information, file size, and changelog details.",
-        "To add more information later, edit data/apps.json and data/updates.json. No rebuild step is required."
-      ]
-    },
-    {
-      "id": "booksxr-v1-1-1",
-      "type": "update",
-      "date": "2026-10-26",
-      "dateLabel": "October 26, 2026",
-      "title": "booksXR v1.1.1 Released",
-      "excerpt": "Full bilingual support, reminder fixes, custom categories, and PDF export with category breakdown.",
-      "readTime": "3 min read",
-      "author": "openglix Team",
-      "tags": ["booksXR", "Release", "Updates"],
-      "content": [
-        "booksXR v1.1.1 is now available. This release focuses on reliability, bilingual support, and cleaner reports.",
-        "Highlights include full English and Nepali support, reminder timing fixes, custom categories, and PDF export with category breakdown.",
-        "The update also fixes the issue where a question mark appeared instead of a minus sign, and improves the balance display for large numbers.",
-        "Download the new APK from the APK Downloads page and install it over your existing version. Your app data is normally preserved."
-      ]
-    },
-    {
-      "id": "install-apk-safely",
-      "type": "blog",
-      "date": "2026-10-24",
-      "dateLabel": "October 24, 2026",
-      "title": "How to Install an APK Safely on Android",
-      "excerpt": "A simple guide to downloading, verifying, and installing APK files outside the Play Store.",
-      "readTime": "4 min read",
-      "author": "openglix Team",
-      "tags": ["Guides", "Android", "Install"],
-      "content": [
-        "Android allows you to install apps from APK files, but you should only install APKs from sources you trust.",
-        "Download the APK from openglix and open it from your notification bar or Files app. Android may ask you to allow installation from unknown sources for your browser.",
-        "If Google Play Protect shows a warning, read it carefully. Only continue if you trust the source and the file you downloaded.",
-        "After installation, open the app and check that the version matches the release notes on this site."
-      ]
-    },
-    {
-      "id": "website-launched",
-      "type": "news",
-      "date": "2026-10-20",
-      "dateLabel": "October 20, 2026",
-      "title": "openglix Website Launched",
-      "excerpt": "openglix now has an official home for APK downloads, release notes, and guides.",
-      "readTime": "1 min read",
-      "author": "openglix Team",
-      "tags": ["openglix", "News"],
-      "content": [
-        "openglix now has an official website. You can download apps directly, scan QR codes, and read the latest updates.",
-        "The site is static and data-driven. Apps and posts are managed from JSON files, so publishing a new release is quick."
-      ]
-    },
-    {
-      "id": "security-update",
-      "type": "update",
-      "date": "2026-10-15",
-      "dateLabel": "October 15, 2026",
-      "title": "Security Update",
-      "excerpt": "Added fingerprint unlock and auto-lock features to keep financial data safer.",
-      "readTime": "2 min read",
-      "author": "openglix Team",
-      "tags": ["booksXR", "Security", "Updates"],
-      "content": [
-        "A security update added fingerprint unlock and auto-lock features.",
-        "These features help keep your financial data safer when your phone is shared or left unattended.",
-        "You can manage security options inside the app settings."
-      ]
-    }
+    
+   {
+  "id": "openglix-launch",
+  "type": "update",
+  "date": "2026-11-01",
+  "dateLabel": "November 1, 2026",
+  "title": "Introducing openglix: Our Official Platform Is Now Live!",
+  "excerpt": "We're excited to announce that openglix is officially live! Discover our applications, explore new releases, and join us as we build useful software and digital experiences for everyone.",
+  "readTime": "5 min read",
+  "author": "openglix Team",
+  "tags": [
+    "Announcements",
+    "openglix",
+    "Launch",
+    "Release"
+  ],
+  "content": [
+    "We are excited to announce that openglix is officially live! Our platform is now open to everyone, giving you a place to discover our applications, explore software releases, stay informed about updates, and connect with our growing community. We invite you to explore our published applications and share your thoughts, suggestions, and feedback to help us improve.",
+
+    "About openglix,\n\nopenglix is a software company and development project focused on creating and providing useful digital products, applications, and software solutions. Our goal is to make everyday digital experiences more accessible by developing practical applications, delivering regular updates, and continuously improving the software we offer.",
+
+    "Starting with Our First Applications\n\nWe are beginning our journey with two applications: booksXRS and booksXR. These applications represent the first step in our growing software ecosystem. We plan to introduce more applications, tools, and software solutions over time as we continue developing and expanding the openglix platform.",
+
+    "Free Applications and Custom Software Services\n\nOur platform and publicly available applications are free to explore and use. In addition to our own products, openglix also offers paid custom software development services for individuals, businesses, and organizations looking for tailored software solutions.\n\nIf you have a project idea or need custom software development, we would be happy to hear from you. Visit our Contact page to get in touch, discuss your requirements, and learn more about how we can help bring your ideas to life.",
+
+    "What's Coming Next?\n\nThis launch is just the beginning. We are actively working on improving our existing applications, introducing new features, developing additional software, and expanding the capabilities of the openglix platform.\n\nOur focus is on continuous development, meaningful improvements, and creating software that provides real value to its users. We will share announcements about new features, applications, improvements, and releases through our platform, so stay connected for future updates.",
+
+    "Join Us on This Journey\n\nWe believe that great software grows through continuous improvement and user feedback. Your suggestions, ideas, reviews, and feedback will play an important role in shaping the future of openglix.\n\nTake some time to explore our platform, try our applications, and let us know what you think. Whether you have a suggestion, found an issue, or simply want to share your experience, we would love to hear from you.\n\nThank you for being part of the beginning of openglix. We truly appreciate your interest and support. This is only the first step, and we look forward to building, improving, and growing together.\n\nWelcome to openglix. Let's build something useful together!"
+  ]
+  }
   ]
 }

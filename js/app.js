@@ -4,6 +4,11 @@ function esc(v) {
   return String(v ?? "").replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
 }
 function absoluteUrl(p) { try { return new URL(p, location.href).href; } catch(_) { return p; } }
+function hashId(id) { return encodeURIComponent(String(id)); }
+function getHashId() {
+  const value = location.hash.slice(1);
+  try { return decodeURIComponent(value); } catch (_) { return value; }
+}
 
 async function loadJSON(path) {
   const r = await fetch(path, { cache: "no-store" });
@@ -50,7 +55,7 @@ async function initHome() {
   const posts = await loadPosts();
   if (!posts.length) { box.innerHTML = '<p class="loading">No posts yet.</p>'; return; }
   box.innerHTML = posts.slice(0,3).map(p =>
-    '<a class="recent-item" href="updates.html#' + esc(p.id) + '">' +
+    '<a class="recent-item" href="updates.html#' + esc(hashId(p.id)) + '">' +
       '<div class="recent-date">' + esc(p.dateLabel || p.date) + '</div>' +
       '<div class="recent-title">' + esc(p.title) + '</div>' +
       '<div class="recent-snippet">' + esc(p.excerpt) + '</div>' +
@@ -104,7 +109,7 @@ function renderList() {
     '</article>';
   }).join("");
   box.querySelectorAll(".blog-card").forEach(c => c.addEventListener("click", () => {
-    location.hash = c.dataset.postId;
+    location.hash = hashId(c.dataset.postId);
   }));
 }
 
@@ -151,10 +156,10 @@ async function initUpdates() {
   }
   renderFilters();
   renderList();
-  const id = location.hash.slice(1);
+  const id = getHashId();
   if (id) showDetail(id);
   window.addEventListener("hashchange", () => {
-    const newId = location.hash.slice(1);
+    const newId = getHashId();
     if (newId) showDetail(newId); else hideDetail();
   });
 }
